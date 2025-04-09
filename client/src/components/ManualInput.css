@@ -1,0 +1,102 @@
+.manual-input {
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.manual-input h2 {
+font-size: 1.5rem;
+color: #333;
+margin-bottom: 1rem;
+}
+
+.manual-input p {
+font-size: 1.2rem;
+color: #666;
+margin-bottom: 1.5rem;
+}
+
+.toss-inputs {
+display: flex;
+justify-content: center;
+gap: 1rem;
+margin-bottom: 1.5rem;
+}
+
+select {
+padding: 8px;
+font-size: 1rem;
+border-radius: 5px;
+border: 1px solid #ccc;
+background-color: white;
+}
+
+.lines-preview {
+display: flex;
+flex-direction: column-reverse;
+align-items: center;
+margin-top: 1.5rem;
+}
+
+.line {
+width: 200px;
+height: 20px;
+margin: 5px 0;
+}
+
+.broken {
+border-top: 10px solid transparent;
+border-bottom: 10px solid transparent;
+background: linear-gradient(to right, black 40%, transparent 40%, transparent 60%, black 60%);
+}
+
+.unbroken {
+border-top: 10px solid black;
+}
+
+.broken-changing {
+border-top: 10px solid transparent;
+border-bottom: 10px solid transparent;
+background: linear-gradient(to right, black 40%, transparent 40%, transparent 60%, black 60%);
+position: relative;
+}
+
+.unbroken-changing {
+border-top: 10px solid black;
+position: relative;
+}
+
+.broken-changing::after,
+.unbroken-changing::after {
+content: '✕';
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+font-size: 16px;
+color: red;
+}
+
+button {
+padding: 12px 24px;
+font-size: 1.1rem;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s;
+}
+
+button:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+background-color: #0056b3;
+}

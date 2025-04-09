@@ -1,0 +1,148 @@
+.coin-flip {
+    text-align: center;
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .coin-flip h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .coin-flip p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  
+  button {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  .toss-history {
+    margin: 1.5rem 0;
+  }
+  
+  .toss-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+  }
+  
+  .toss-row span {
+    font-size: 1rem;
+    color: #333;
+    margin-right: 1rem;
+  }
+  
+  .coin-container {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .coin {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Neutral color during flip */
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+  }
+  
+  .coin.flipping {
+    animation: flip 1s ease-in-out;
+    background-color: #e0e0e0; /* Remains neutral during animation */
+  }
+  
+  .coin.heads {
+    background-color: #ffd700; /* Gold for heads */
+  }
+  
+  .coin.tails {
+    background-color: #c0c0c0; /* Silver for tails */
+  }
+  
+  @keyframes flip {
+    0% {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(180deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+  
+  .lines-preview {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .line {
+    width: 200px;
+    height: 20px;
+    margin: 5px 0;
+  }
+  
+  .broken {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    background: linear-gradient(to right, black 40%, transparent 40%, transparent 60%, black 60%);
+  }
+  
+  .unbroken {
+    border-top: 10px solid black;
+  }
+  
+  .broken-changing {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    background: linear-gradient(to right, black 40%, transparent 40%, transparent 60%, black 60%);
+    position: relative;
+  }
+  
+  .unbroken-changing {
+    border-top: 10px solid black;
+    position: relative;
+  }
+  
+  .broken-changing::after,
+  .unbroken-changing::after {
+    content: '✕';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: red;
+  }

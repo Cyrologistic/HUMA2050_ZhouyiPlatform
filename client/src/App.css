@@ -1,0 +1,44 @@
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Noto Sans SC', 'Arial', sans-serif;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+.app h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.mode-selection {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.reserved-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  min-height: 100px;
+  /* //TODO: Add additional content or features here */
+}
