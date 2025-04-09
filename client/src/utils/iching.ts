@@ -2,7 +2,7 @@ import { LineType, Hexagram } from "../types/iching";
 import { hexagrams } from '../data/hexagrams';
 
 
-export const generateLine = (tosses: (2 | 3)[]): LineType => {
+export const generateLine = (tosses: number[]): LineType => {
     const sum = tosses.reduce((acc, val) => acc + val, 0);
     switch (sum) {
       case 6:
