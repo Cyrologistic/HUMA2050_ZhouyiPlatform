@@ -34,9 +34,9 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
             setHexagram(newHexagram);
             console.log('Hexagram set:', newHexagram);
             onComplete(newHexagram);
-          }, 100); // Small delay to ensure state updates correctly
+          }, 100);
         }
-      }, 1000); // Matches animation duration
+      }, 1000);
     }
   };
 
@@ -47,7 +47,6 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     setHexagram(null);
   };
 
-  // Auto-scroll to hexagram section when it appears
   useEffect(() => {
     if (hexagram && hexagramRef.current) {
       hexagramRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -58,29 +57,36 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     <div className="coin-flip">
       <h2>Flip Coins</h2>
       {!hexagram && (
-        <p>Toss {lines.length + 1} of 6</p>
+        <p className="toss-instruction">Toss {lines.length + 1} of 6</p>
       )}
       {!hexagram && (
         <button onClick={handleFlip} disabled={lines.length === 6 || isFlipping}>
-          {isFlipping ? 'Flipping...' : 'Flip Coins'}
+          {isFlipping ? (
+            <span className="flipping-message">
+              Flipping
+              <span className="spinner"></span>
+            </span>
+          ) : (
+            'Flip Coins'
+          )}
         </button>
       )}
       <div className="layout-container">
         <div className="toss-history">
           {allTosses.length === 0 && !hexagram && (
-            <p>Click "Flip Coins" to begin.</p>
+            <p className="start-message">Click "Flip Coins" to begin your reading.</p>
           )}
           {[...allTosses].reverse().map((tosses, index) => {
-            const lineNumber = allTosses.length - index; // Line 6 at top, Line 1 at bottom
+            const lineNumber = allTosses.length - index;
             return (
               <div key={index} className="toss-row">
-                <span>Line {lineNumber}: </span>
+                <span>Line {lineNumber}:</span>
                 <div className="coin-container">
                   {tosses.map((result, coinIndex) => (
                     <div
                       key={coinIndex}
                       className={`coin ${
-                        index === 0 && isFlipping // Only animate the newest (top) row
+                        index === 0 && isFlipping
                           ? 'flipping'
                           : result === 3
                           ? 'heads'
@@ -97,7 +103,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
         {hexagram && (
           <div className="hexagram-section visible" ref={hexagramRef}>
             <h3>
-              Hexagram {hexagram.number}: {hexagram.name} ({hexagram.chineseName})
+              Hexagram {hexagram.number}: {hexagram.chineseName || "PLACEHOLDER"}
             </h3>
             {hexagram.image ? (
               <img
@@ -106,7 +112,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                 className="hexagram-image"
               />
             ) : (
-              <p>No image available</p>
+              <p className="no-image">No image available</p>
             )}
             <div className="lines">
               {hexagram.lines.map((line, index) => (
@@ -127,7 +133,6 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
             <button className="start-over-button" onClick={handleStartOver}>
               Start Over
             </button>
-            {/* //TODO: Add additional content or features here */}
           </div>
         )}
       </div>

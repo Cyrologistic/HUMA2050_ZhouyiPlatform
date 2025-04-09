@@ -29,7 +29,7 @@ export const createHexagram = (lines: LineType[]): Hexagram => {
     // Look up hexagram data
     const hexagramData = hexagrams.find((h) => h.number === number) || {
       number,
-      name: '*Unknown',
+      name: 'Unknown',
       chineseName: '',
       description: 'No description available',
       image: undefined,

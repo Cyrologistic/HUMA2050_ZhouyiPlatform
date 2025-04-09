@@ -1,36 +1,48 @@
-import React, { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// src/App.tsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import Header from './components/Header';
+import Introduction from './components/Introduction';
 import CoinFlip from './components/CoinFlip';
-import ManualInput from './components/ManualInput';
+import HexagramGuide from './components/HexagramGuide';
+import About from './components/About';
+import Footer from './components/Footer';
 import './App.css';
 
 const App: React.FC = () => {
-  const [mode, setMode] = useState<'manual' | 'website' | null>(null);
+  const location = useLocation();
 
-  const handleModeSelect = (selectedMode: 'manual' | 'website') => {
-    setMode(selectedMode);
+  const handleCoinFlipComplete = (hexagram: any) => {
+    console.log('Hexagram generated:', hexagram);
   };
 
-  const handleHexagramComplete = () => {
-    // No reset; CoinFlip manages its own state
-  };
+  // Debug log to confirm route changes
+  console.log('Current location:', location.pathname);
 
   return (
     <div className="app">
-      <h1>I Ching Prediction</h1>
-      {!mode && (
-        <div className="mode-selection">
-          <button onClick={() => handleModeSelect('manual')}>
-            Manual Input
-          </button>
-          <button onClick={() => handleModeSelect('website')}>
-            Website Coin Flip
-          </button>
-        </div>
-      )}
-      {mode === 'manual' && <ManualInput onComplete={handleHexagramComplete} />}
-      {mode === 'website' && <CoinFlip onComplete={handleHexagramComplete} />}
+      <Header />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Introduction />} />
+          <Route
+            path="/coin-flip"
+            element={<CoinFlip onComplete={handleCoinFlipComplete} />}
+          />
+          <Route path="/hexagram-guide" element={<HexagramGuide />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
+      <Footer />
     </div>
   );
 };
 
-export default App;
+const AppWrapper: React.FC = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;

@@ -1,0 +1,54 @@
+.about {
+  max-width: 800px;
+  width: 100%;
+  padding: 2rem;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Rest of the styles remain unchanged */
+.about h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #2A4365;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.about-content {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #4A5568;
+  line-height: 1.8;
+}
+
+.about-content p {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 1rem;
+  }
+
+  .about h2 {
+    font-size: 2rem;
+  }
+
+  .about-content {
+    font-size: 1rem;
+  }
+}
