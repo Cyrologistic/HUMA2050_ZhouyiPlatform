@@ -1,1 +1,1 @@
-# HUMA2050_ZhouIPlatform
+# HUMA2050_ZhouyiPlatform
