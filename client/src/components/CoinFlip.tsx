@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { LineType } from '../types/iching';
 import { generateLine, createHexagram } from '../utils/iching';
 import './CoinFlip.css';
@@ -9,8 +9,10 @@ interface CoinFlipProps {
 
 const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   const [lines, setLines] = useState<LineType[]>([]);
-  const [allTosses, setAllTosses] = useState<(2 | 3)[][]>([]); // Array of tosses for each line
+  const [allTosses, setAllTosses] = useState<(2 | 3)[][]>([]);
   const [isFlipping, setIsFlipping] = useState(false);
+  const [hexagram, setHexagram] = useState<ReturnType<typeof createHexagram> | null>(null);
+  const hexagramRef = useRef<HTMLDivElement>(null);
 
   const handleFlip = () => {
     if (lines.length < 6 && !isFlipping) {
@@ -18,8 +20,6 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
       const tosses = Array(3)
         .fill(0)
         .map(() => (Math.random() < 0.5 ? 2 : 3) as 2 | 3);
-
-      // Add tosses immediately, but results show after animation
       setAllTosses([...allTosses, tosses]);
 
       setTimeout(() => {
@@ -29,51 +29,107 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
         setIsFlipping(false);
 
         if (updatedLines.length === 6) {
-          const hexagram = createHexagram(updatedLines);
-          onComplete(hexagram);
+          const newHexagram = createHexagram(updatedLines);
+          setTimeout(() => {
+            setHexagram(newHexagram);
+            console.log('Hexagram set:', newHexagram);
+            onComplete(newHexagram);
+          }, 100); // Small delay to ensure state updates correctly
         }
       }, 1000); // Matches animation duration
     }
   };
 
+  const handleStartOver = () => {
+    setLines([]);
+    setAllTosses([]);
+    setIsFlipping(false);
+    setHexagram(null);
+  };
+
+  // Auto-scroll to hexagram section when it appears
+  useEffect(() => {
+    if (hexagram && hexagramRef.current) {
+      hexagramRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [hexagram]);
+
   return (
     <div className="coin-flip">
       <h2>Flip Coins</h2>
-      <p>Toss {lines.length + 1} of 6</p>
-      <button onClick={handleFlip} disabled={lines.length === 6 || isFlipping}>
-        {isFlipping ? 'Flipping...' : 'Flip Coins'}
-      </button>
-      <div className="toss-history">
-        {allTosses.map((tosses, lineIndex) => (
-          <div key={lineIndex} className="toss-row">
-            <span>Line {lineIndex + 1}: </span>
-            <div className="coin-container">
-              {tosses.map((result, coinIndex) => (
-                <div
-                  key={coinIndex}
-                  className={`coin ${
-                    lineIndex === allTosses.length - 1 && isFlipping
-                      ? 'flipping'
-                      : result === 3
-                      ? 'heads'
-                      : 'tails'
-                  }`}
-                >
-                  {lineIndex === allTosses.length - 1 && isFlipping
-                    ? ''
-                    : result === 3
-                    ? 'Heads'
-                    : 'Tails'}
+      {!hexagram && (
+        <p>Toss {lines.length + 1} of 6</p>
+      )}
+      {!hexagram && (
+        <button onClick={handleFlip} disabled={lines.length === 6 || isFlipping}>
+          {isFlipping ? 'Flipping...' : 'Flip Coins'}
+        </button>
+      )}
+      <div className="layout-container">
+        <div className="toss-history">
+          {allTosses.length === 0 && !hexagram && (
+            <p>Click "Flip Coins" to begin.</p>
+          )}
+          {[...allTosses].reverse().map((tosses, index) => {
+            const lineNumber = allTosses.length - index; // Line 6 at top, Line 1 at bottom
+            return (
+              <div key={index} className="toss-row">
+                <span>Line {lineNumber}: </span>
+                <div className="coin-container">
+                  {tosses.map((result, coinIndex) => (
+                    <div
+                      key={coinIndex}
+                      className={`coin ${
+                        index === 0 && isFlipping // Only animate the newest (top) row
+                          ? 'flipping'
+                          : result === 3
+                          ? 'heads'
+                          : 'tails'
+                      }`}
+                      data-result={result}
+                    ></div>
+                  ))}
                 </div>
+              </div>
+            );
+          })}
+        </div>
+        {hexagram && (
+          <div className="hexagram-section visible" ref={hexagramRef}>
+            <h3>
+              Hexagram {hexagram.number}: {hexagram.name} ({hexagram.chineseName})
+            </h3>
+            {hexagram.image ? (
+              <img
+                src={hexagram.image}
+                alt={`Hexagram ${hexagram.number}`}
+                className="hexagram-image"
+              />
+            ) : (
+              <p>No image available</p>
+            )}
+            <div className="lines">
+              {hexagram.lines.map((line, index) => (
+                <div
+                  key={index}
+                  className={`line ${line}`}
+                  title={line.includes('changing') ? 'Changing Line' : ''}
+                ></div>
               ))}
             </div>
+            <div className="description">
+              <p>{hexagram.description}</p>
+            </div>
           </div>
-        ))}
-      </div>
-      <div className="lines-preview">
-        {lines.map((line, index) => (
-          <div key={index} className={`line ${line}`}></div>
-        ))}
+        )}
+        {hexagram && (
+          <div className="reserved-section">
+            <button className="start-over-button" onClick={handleStartOver}>
+              Start Over
+            </button>
+            {/* //TODO: Add additional content or features here */}
+          </div>
+        )}
       </div>
     </div>
   );

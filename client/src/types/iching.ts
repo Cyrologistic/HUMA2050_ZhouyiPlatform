@@ -4,5 +4,7 @@ export interface Hexagram {
     lines: LineType[];
     number: number;
     name: string;
+    chineseName: string;
+    image?: string;
     description: string;
 }
