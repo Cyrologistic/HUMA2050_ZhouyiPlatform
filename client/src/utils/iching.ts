@@ -18,29 +18,45 @@ export const generateLine = (tosses: number[]): LineType => {
     }
 };
   
+// export const createHexagram = (lines: LineType[]): Hexagram => {
+//     // Calculate binary value for hexagram number
+//     const binary = lines
+//       .map((line) => (line.includes('yang') ? '1' : '0'))
+//       .reverse()
+//       .join('');
+//     const number = parseInt(binary, 2) + 1; // Hexagram numbers are 1-64
+  
+//     // Look up hexagram data
+//     const hexagramData = hexagrams.find((h) => h.number === number) || {
+//       number,
+//       name: 'Unknown',
+//       chineseName: '',
+//       description: 'No description available',
+//       image: undefined,
+//     };
+  
+//     return {
+//       number,
+//       name: hexagramData.name,
+//       description: hexagramData.description,
+//       lines,
+//       chineseName: hexagramData.chineseName,
+//       image: hexagramData.image,
+//     };
+// };
+
 export const createHexagram = (lines: LineType[]): Hexagram => {
-    // Calculate binary value for hexagram number
-    const binary = lines
-      .map((line) => (line.includes('yang') ? '1' : '0'))
-      .reverse()
-      .join('');
-    const number = parseInt(binary, 2) + 1; // Hexagram numbers are 1-64
-  
-    // Look up hexagram data
-    const hexagramData = hexagrams.find((h) => h.number === number) || {
-      number,
-      name: 'Unknown',
-      chineseName: '',
-      description: 'No description available',
-      image: undefined,
-    };
-  
-    return {
-      number,
-      name: hexagramData.name,
-      description: hexagramData.description,
-      lines,
-      chineseName: hexagramData.chineseName,
-      image: hexagramData.image,
-    };
+  const binary = lines.map(line => (line.includes('unbroken') ? 1 : 0)).join('');
+  const hexagramNumber = parseInt(binary, 2) + 1; // Convert binary to decimal and adjust to 1-64
+  const hexagramData = hexagrams[hexagramNumber - 1]; // Access hexagram data (0-based index)
+
+  return {
+    number: hexagramNumber,
+    name: hexagramData.name,
+    chineseName: hexagramData.chineseName,
+    description: hexagramData.description,
+    lines,
+    image: hexagramData.image,
+    lineInterpretations: hexagramData.lineInterpretations, // Include line-specific interpretations
+  };
 };

@@ -68,12 +68,18 @@
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
+.question-input.error {
+  border-color: #E53E3E;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
 /* Error Message Styles */
 .error-message {
   font-family: 'Inter', 'Noto Sans SC', sans-serif;
   font-size: 0.9rem;
   color: #E53E3E; /* Red color for error */
-  margin: -0.5rem 0 1rem 0;
+  font-weight: 700; /* Make the text bold */
+  margin: -0.5rem 0 1.5rem 0; /* Increase bottom margin to 1.5rem */
   text-align: left;
   animation: fadeInError 0.3s ease forwards;
 }
@@ -683,6 +689,7 @@ button:active:not(:disabled) {
 
   .error-message {
     font-size: 0.8rem;
+    margin: -0.5rem 0 1rem 0; /* Adjust bottom margin for smaller screens */
   }
 
   .question-submit {
@@ -719,4 +726,35 @@ button:active:not(:disabled) {
     padding: 0.5rem 1rem;
     font-size: 1rem;
   }
+}
+
+/* Add to src/components/CoinFlip.css, under the .hexagram-section styles */
+
+/* Changing Line Interpretation Styles */
+.changing-line {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: #F7FAFC;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.changing-line p {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: 1rem;
+  color: #2A4365;
+  line-height: 1.6;
+}
+
+.changing-line strong {
+  color: #D4AF37;
+}
+
+/* Update the .hexagram-section .description h4 for consistency */
+.hexagram-section .description h4 {
+  font-family: 'Playfair Display', 'Noto Sans SC', sans-serif;
+  font-size: 1.3rem;
+  color: #2A4365;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
 }

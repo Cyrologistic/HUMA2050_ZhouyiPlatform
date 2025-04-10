@@ -1,6 +1,6 @@
 // src/components/CoinFlip.tsx
 import React, { useState, useRef, useEffect } from 'react';
-import { LineType } from '../types/iching';
+import { LineType, Hexagram } from '../types/iching';
 import { generateLine, createHexagram } from '../utils/iching';
 import './CoinFlip.css';
 
@@ -17,25 +17,25 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   const [allTosses, setAllTosses] = useState<(2 | 3)[][]>([]);
   const [isFlipping, setIsFlipping] = useState<boolean>(false);
   const [hexagram, setHexagram] = useState<ReturnType<typeof createHexagram> | null>(null);
-  const [manualTosses, setManualTosses] = useState<(2 | 3)[]>([2, 2, 2]); // Default to Tails for each coin
+  const [manualTosses, setManualTosses] = useState<(2 | 3)[]>([2, 2, 2]);
   const hexagramRef = useRef<HTMLDivElement>(null);
 
   const getChineseLineName = (lineNumber: number): string => {
     switch (lineNumber) {
       case 1:
-        return '初爻'; // First Line
+        return '初爻';
       case 2:
-        return '二爻'; // Second Line
+        return '二爻';
       case 3:
-        return '三爻'; // Third Line
+        return '三爻';
       case 4:
-        return '四爻'; // Fourth Line
+        return '四爻';
       case 5:
-        return '五爻'; // Fifth Line
+        return '五爻';
       case 6:
-        return '上爻'; // Top Line
+        return '上爻';
       default:
-        return ''; // Should not occur
+        return '';
     }
   };
 
@@ -62,37 +62,58 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
       case 10:
         return '十';
       default:
-        return ''; // Should not occur
+        return '';
     }
-  }
+  };
 
   const getHexagramNumberName = (num: number): string => {
     if (num < 10) {
       return getChineseNumberName(num);
-    }
-    else {
+    } else {
       if (~~(num / 10) === 1) {
-        return getChineseNumberName(10) + getChineseNumberName(num%10);
-      }
-      else {
-        return getChineseNumberName(~~(num/10)) + getChineseNumberName(10) + getChineseNumberName(num%10);
+        return getChineseNumberName(10) + getChineseNumberName(num % 10);
+      } else {
+        return getChineseNumberName(~~(num / 10)) + getChineseNumberName(10) + getChineseNumberName(num % 10);
       }
     }
-  }
+  };
+
+  // Function to check if the input contains Chinese characters
+  const containsChinese = (text: string): boolean => {
+    const chineseRegex = /[\u4E00-\u9FFF]/;
+    return chineseRegex.test(text);
+  };
+
+  // Function to compute the secondary hexagram by flipping changing lines
+  const computeSecondaryHexagram = (primaryHexagram: Hexagram): Hexagram => {
+    const newLines = primaryHexagram.lines.map((line) => {
+      if (line === 'broken-changing') return 'unbroken'; // Old Yin -> Yang
+      if (line === 'unbroken-changing') return 'broken'; // Old Yang -> Yin
+      return line; // Non-changing lines remain the same
+    }) as LineType[];
+    return createHexagram(newLines);
+  };
 
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!question.trim()) {
+    const trimmedQuestion = question.trim();
+
+    if (!trimmedQuestion) {
       setErrorMessage('請輸入您的問題以繼續占卜');
       return;
     }
-    setErrorMessage(''); // Clear error message if validation passes
+
+    if (!containsChinese(trimmedQuestion)) {
+      setErrorMessage('請使用中文輸入您的問題');
+      return;
+    }
+
+    setErrorMessage('');
     setIsQuestionSubmitted(true);
   };
 
   const handleModeToggle = () => {
     setMode(mode === 'automated' ? 'manual' : 'automated');
-    // Reset tosses if switching modes mid-process
     if (lines.length > 0) {
       setLines([]);
       setAllTosses([]);
@@ -128,7 +149,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
 
   const handleManualTossToggle = (index: number) => {
     const updatedTosses = [...manualTosses];
-    updatedTosses[index] = updatedTosses[index] === 2 ? 3 : 2; // Toggle between 2 (Tails) and 3 (Heads)
+    updatedTosses[index] = updatedTosses[index] === 2 ? 3 : 2;
     setManualTosses(updatedTosses);
   };
 
@@ -147,7 +168,6 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
           onComplete(newHexagram);
         }, 100);
       } else {
-        // Reset manual tosses for the next line
         setManualTosses([2, 2, 2]);
       }
     }
@@ -156,6 +176,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   const handleStartOver = () => {
     setQuestion('');
     setIsQuestionSubmitted(false);
+    setErrorMessage('');
     setMode('automated');
     setLines([]);
     setAllTosses([]);
@@ -169,6 +190,16 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
       hexagramRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [hexagram]);
+
+  // Count changing lines and get their interpretations
+  const changingLines = hexagram
+    ? hexagram.lines
+        .map((line, index) => (line.includes('changing') ? index : -1))
+        .filter(index => index !== -1)
+    : [];
+
+  // Compute secondary hexagram if there are changing lines
+  const secondaryHexagram = hexagram && changingLines.length > 0 ? computeSecondaryHexagram(hexagram) : null;
 
   return (
     <div className="coin-flip">
@@ -185,9 +216,8 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="你的問題（例：我會找到工作嗎？）"
-              className="question-input"
+              className={`question-input ${errorMessage ? 'error' : ''}`}
               rows={4}
-              // required
               aria-describedby="question-error"
             />
             {errorMessage && (
@@ -247,7 +277,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
 
           {!hexagram && mode === 'manual' && (
             <div className="manual-input">
-              <h4>Enter Toss for Line {lines.length + 1}</h4>
+              <h4>請設置 {getChineseLineName(lines.length + 1)} (第 {getChineseNumberName(lines.length + 1)} 爻)</h4>
               <div className="manual-toss-input">
                 {manualTosses.map((toss, index) => (
                   <div
@@ -313,19 +343,47 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                     className="hexagram-image"
                   />
                 ) : (
-                  <p className="no-image">No image available</p>
+                  <p className="no-image">無圖片可顯示</p>
                 )}
                 <div className="lines">
                   {hexagram.lines.map((line, index) => (
                     <div
                       key={index}
                       className={`line ${line}`}
-                      title={line.includes('changing') ? 'Changing Line' : ''}
+                      title={line.includes('changing') ? '變爻' : ''}
                     ></div>
                   ))}
                 </div>
                 <div className="description">
+                  <h4>總釋:</h4>
                   <p>{hexagram.description}</p>
+                  {changingLines.length > 0 && (
+                    <>
+                      <h4>變爻解釋:</h4>
+                      {changingLines.map((lineIndex) => (
+                        <div key={lineIndex} className="changing-line">
+                          <p>
+                            <strong>{getChineseLineName(lineIndex + 1)}:</strong>{' '}
+                            {hexagram.lineInterpretations[lineIndex]}
+                          </p>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  {secondaryHexagram && (
+                    <>
+                      <h4>之卦 (第{getHexagramNumberName(secondaryHexagram.number)}掛: {secondaryHexagram.chineseName}):</h4>
+                      <div className="lines">
+                        {secondaryHexagram.lines.map((line, index) => (
+                          <div
+                            key={index}
+                            className={`line ${line}`}
+                          ></div>
+                        ))}
+                      </div>
+                      <p>{secondaryHexagram.description}</p>
+                    </>
+                  )}
                 </div>
               </div>
             )}

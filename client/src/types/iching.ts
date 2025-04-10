@@ -1,10 +1,11 @@
 export type LineType = 'young_yin' | 'young_yang' | 'old_yin' | 'old_yang';
 
 export interface Hexagram {
-    lines: LineType[];
     number: number;
     name: string;
     chineseName: string;
-    image?: string;
     description: string;
-}
+    lines: LineType[];
+    image?: string;
+    lineInterpretations: string[]; // Array of 6 strings for line-specific interpretations
+  }
