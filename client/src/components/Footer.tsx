@@ -5,7 +5,7 @@ import './Footer.css';
 const Footer: React.FC = () => {
   return (
     <footer className="footer">
-      <p>PLACEHOLDER</p>
+      <p>HUMA 2050 25S Group 14</p>
     </footer>
   );
 };

@@ -1,3 +1,4 @@
+/* src/components/CoinFlip.css */
 .coin-flip {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
@@ -21,7 +22,6 @@
   }
 }
 
-/* Rest of the styles remain unchanged */
 .coin-flip h2 {
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
@@ -29,8 +29,260 @@
   margin-bottom: 1.5rem;
 }
 
-.toss-instruction {
+/* Question Form Styles */
+.question-form {
+  margin-bottom: 2rem;
+}
+
+.question-form h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #2A4365;
+  margin-bottom: 1rem;
+}
+
+.question-instruction {
   font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  color: #4A5568;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.question-input {
+  width: 100%;
+  padding: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #4A5568;
+  background-color: #F7FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+
+.question-input:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Error Message Styles */
+.error-message {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-size: 0.9rem;
+  color: #E53E3E; /* Red color for error */
+  margin: -0.5rem 0 1rem 0;
+  text-align: left;
+  animation: fadeInError 0.3s ease forwards;
+}
+
+@keyframes fadeInError {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-submit {
+  padding: 0.75rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #D4AF37;
+  color: #1A202C;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.question-submit:hover {
+  background-color: #C19A2E;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.question-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Question Display Styles */
+.question-display {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #F7FAFC;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.question-display h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #2A4365;
+  margin-bottom: 0.5rem;
+}
+
+.question-display p {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #4A5568;
+  font-style: italic;
+}
+
+/* Mode Toggle Styles */
+.mode-toggle {
+  margin-bottom: 2rem;
+}
+
+.mode-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2A4365;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.toggle-button {
+  padding: 0.5rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4A5568;
+  background-color: #E2E8F0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.toggle-button.active {
+  background-color: #D4AF37;
+  color: #1A202C;
+  font-weight: 600;
+}
+
+.toggle-button:hover:not(.active) {
+  background-color: #D4E2EB;
+  transform: translateY(-2px);
+}
+
+/* Manual Input Styles */
+.manual-input {
+  margin-bottom: 2rem;
+}
+
+.manual-input h4 {
+  font-family: 'Playfair Display', 'Noto Sans SC', sans-serif;
+  font-size: 1.5rem;
+  color: #2A4365;
+  margin-bottom: 1rem;
+}
+
+.manual-toss-input {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.manual-coin {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.manual-coin:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.manual-coin:active {
+  transform: scale(0.95);
+}
+
+.manual-coin.heads {
+  background-color: #D4AF37;
+}
+
+.manual-coin.heads::after {
+  content: '正';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #1A202C;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.manual-coin.tails {
+  background-color: #A3BFFA;
+}
+
+.manual-coin.tails::after {
+  content: '反';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #1A202C;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.manual-submit {
+  padding: 0.75rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #4C8599;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.manual-submit:disabled {
+  background-color: #E2E8F0;
+  color: #A0AEC0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.manual-submit:hover:not(:disabled) {
+  background-color: #3B6E82;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.manual-submit:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Toss Instruction Styles */
+.toss-instruction {
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
   font-size: 1.2rem;
   color: #4A5568;
   margin-bottom: 2rem;
@@ -100,7 +352,7 @@ button:active:not(:disabled) {
 }
 
 .toss-row span {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Noto Sans SC', sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: #2A4365;
@@ -128,14 +380,15 @@ button:active:not(:disabled) {
 }
 
 .coin.heads::after {
-  content: 'Heads';
+  content: '正';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #1A202C;
+  font-family: 'Noto Sans SC', sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .coin.tails {
@@ -143,14 +396,15 @@ button:active:not(:disabled) {
 }
 
 .coin.tails::after {
-  content: 'Tails';
+  content: '反';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #1A202C;
+  font-family: 'Noto Sans SC', sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .coin.flipping {
@@ -159,27 +413,29 @@ button:active:not(:disabled) {
 }
 
 .coin.flipping::before {
-  content: 'Heads';
+  content: '正';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #1A202C;
+  font-family: 'Noto Sans SC', sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
   animation: flipText 1s ease-in-out infinite;
   opacity: 0;
 }
 
 .coin.flipping::after {
-  content: 'Tails';
+  content: '反';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #1A202C;
+  font-family: 'Noto Sans SC', sans-serif;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
   animation: flipText 1s ease-in-out infinite 0.5s;
   opacity: 0;
 }
@@ -202,6 +458,31 @@ button:active:not(:disabled) {
   }
   51%, 100% {
     opacity: 0;
+  }
+}
+
+.flipping-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #1A202C;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -333,31 +614,7 @@ button:active:not(:disabled) {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.flipping-message {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #1A202C;
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
   .coin-flip {
     padding: 2rem;
@@ -386,7 +643,17 @@ button:active:not(:disabled) {
   .coin.tails::after,
   .coin.flipping::before,
   .coin.flipping::after {
-    font-size: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .manual-coin {
+    width: 60px;
+    height: 60px;
+  }
+
+  .manual-coin.heads::after,
+  .manual-coin.tails::after {
+    font-size: 1rem;
   }
 
   .hexagram-section {
@@ -400,5 +667,56 @@ button:active:not(:disabled) {
   .line {
     width: 160px;
     height: 16px;
+  }
+
+  .question-form h3 {
+    font-size: 1.5rem;
+  }
+
+  .question-instruction {
+    font-size: 1rem;
+  }
+
+  .question-input {
+    font-size: 0.9rem;
+  }
+
+  .error-message {
+    font-size: 0.8rem;
+  }
+
+  .question-submit {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .question-display h4 {
+    font-size: 1.1rem;
+  }
+
+  .question-display p {
+    font-size: 0.9rem;
+  }
+
+  .mode-label {
+    font-size: 1rem;
+  }
+
+  .toggle-button {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .manual-input h4 {
+    font-size: 1.3rem;
+  }
+
+  .manual-toss-input {
+    gap: 1rem;
+  }
+
+  .manual-submit {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
   }
 }

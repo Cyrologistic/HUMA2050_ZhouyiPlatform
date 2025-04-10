@@ -5,7 +5,7 @@ import './About.css';
 const About: React.FC = () => {
   return (
     <div className="about">
-      <h2>About the I Ching</h2>
+      <h2>周易是什麼？</h2>
       <div className="about-content">
         <p>{"PLACEHOLDER"}</p>
       </div>
