@@ -101,6 +101,7 @@ export const generateInterpretation = async ({
     jsonResponse = jsonResponse.replace("}", "");
     jsonResponse = jsonResponse.replace("\"", "");
     jsonResponse = jsonResponse.replace("\n", "");
+    jsonResponse = jsonResponse.replace("\n\n", "");
     console.log(jsonResponse)
 
     if (jsonResponse) {
