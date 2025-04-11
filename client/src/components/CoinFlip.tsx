@@ -205,7 +205,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
         hexagram,
         changingLineInterpretations,
       });
-      setInterpretation(interpretation.replace("\n","</br>"));
+      setInterpretation(interpretation);
     } catch (error) {
       console.error('Error generating LLM interpretation:', error);
       setInterpretationError('無法生成解釋，請稍後再試。');
