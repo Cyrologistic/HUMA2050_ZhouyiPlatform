@@ -7,6 +7,7 @@ interface GenerateInterpretationParams {
   changingLineInterpretations: string[];
 }
 
+
 export const generateInterpretation = async ({
   question,
   hexagram,
@@ -92,9 +93,22 @@ export const generateInterpretation = async ({
     interpretation = interpretation.replace("\\boxed{\n", '');
     interpretation = interpretation.substring(0, interpretation.length - 1);
     interpretation = interpretation.replace("*", "");
+    interpretation = interpretation.replace("**", "");
     interpretation = interpretation.replace(/[\r|\n|\t]/g,"")
+    interpretation = interpretation.replace("\n", "");
+    interpretation = interpretation.replace("\n\n", "");
+    interpretation = interpretation.replace("\r", "");
+    interpretation = interpretation.replace("\t", "");
 
-    const parsedResponse = JSON.stringify(interpretation);
+    let parsedResponse = JSON.stringify(interpretation);
+    parsedResponse = interpretation.replace("*", "");
+    parsedResponse = parsedResponse.replace("**", "");
+    parsedResponse = parsedResponse.replace(/[\r|\n|\t]/g,"")
+    parsedResponse = parsedResponse.replace("\n", "");
+    parsedResponse = parsedResponse.replace("\n\n", "");
+    parsedResponse = parsedResponse.replace("\r", "");
+    parsedResponse = parsedResponse.replace("\t", "");
+
     let jsonResponse = JSON.parse(parsedResponse);
     jsonResponse = jsonResponse.replace("\"interpretation\":", "");
     jsonResponse = jsonResponse.replace("{", "");
