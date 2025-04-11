@@ -19,12 +19,51 @@ export const generateInterpretation = async ({
 
   // TODO: Prompt for the LLM
   const prompt = `
-        
+  #身份： 你是一個精通周易算卦的占卜師。你擅長通過問卦人的問題，結合銅幣擲出的卦象，來解讀周易的卦辭和爻辭。你會根據問卦人的問題，給出一個詳細的解讀，並且提供一些建議。
+  ##任務： 根據問卦人的問題，結合銅幣擲出的卦象，來解讀周易的卦辭和爻辭。你會根據問卦人的問題，給出一個詳細的解讀，並且提供一些建議。
+  ###輸入格式： JSON格式,如下:
+  {
+    "question": "問卦人的問題",
+    "hexagram": {
+      "number": 卦象的數字,
+      "name": 卦名的英文,
+      "description": 卦辭,    
+      "lines": string[6], "young_yin" | "young_yang" | "old_yin" | "old_yang",
+      "chineseName": 卦名,
+    },
+    "changingLineInterpretations": [
+      卦象對應的變爻的爻辭,可為0-6個
+    ]
+  }
+  #### 注意事項： 
+  - 不可從網上即時獲取資料，請根據你已有的知識來解讀卦辭和爻辭。
+  - 你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。
+  - 不要有"問卦人詢問"的字眼
+  - interpretation 以"卦象"開頭，然後是卦辭的內容，然後是爻辭的內容，最後是建議的內容。
+  
+  ### 輸出格式： JSON格式如下,請一定遵循這個格式:
+  {
+    "interpretation": "解讀的內容+建議",
+  }
   `;
 
   // TODO: Input
   const input = `
-  ${question}, ${hexagram}, ${changingLineInterpretations}
+  {
+    "question": "${question}",
+    "hexagram": {
+        "number": ${hexagram.number},
+        "name": "${hexagram.name}",
+        "description": "${hexagram.description}",
+        "lines": ${JSON.stringify(hexagram.lines)},
+        "chineseName": "${hexagram.chineseName}",
+    },
+    "changingLineInterpretations": [
+    ${changingLineInterpretations
+        .map((interpretation) => `"${interpretation}"`)
+        .join(',')}
+    ]
+  }
   `;
 
   try {
@@ -33,10 +72,10 @@ export const generateInterpretation = async ({
       {
         model: 'deepseek/deepseek-r1-zero:free',
         messages: [
-          { role: 'system', content: prompt },
+          { role: 'user', content: prompt },
           { role: 'user', content: input },
         ],
-        max_tokens: 128000,
+        max_tokens: 4096,
         temperature: 0.3,
       },
       {
@@ -47,10 +86,25 @@ export const generateInterpretation = async ({
       }
     );
 
-    const interpretation = response.data.choices[0].message.content.trim();
-    return interpretation;
+    let interpretation = response.data.choices[0].message.content.trim();
+
+    console.log(interpretation)
+
+    interpretation = interpretation.replace("\\boxed{\n", '');
+    interpretation = interpretation.substring(0, interpretation.length - 1);
+    // interpretation = interpretation.replace("\n","");
+
+    console.log(interpretation)
+
+    const parsedResponse = JSON.parse(interpretation);
+    
+    if (parsedResponse && parsedResponse.interpretation) {
+      return parsedResponse.interpretation;
+    } else {
+      throw new Error('Interpretation field not found in LLM response.');
+    }
   } catch (error) {
-    console.error('Error calling OpenAI API:', error);
+    console.error('Error calling API:', error);
     throw new Error('Failed to generate interpretation from LLM.');
   }
 };

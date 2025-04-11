@@ -25,7 +25,7 @@ const Header: React.FC = () => {
             to="/hexagram-guide"
             className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
           >
-            掛辭指南
+            卦辭指南
           </NavLink>
           <NavLink
             to="/about"

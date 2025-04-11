@@ -1,3 +1,5 @@
+// src/data/hexagrams.ts
+
 export interface HexagramData {
   number: number;
   name: string;
@@ -8,26 +10,11 @@ export interface HexagramData {
 }
 
 export const hexagrams: HexagramData[] = [
-  { 
-    number: 0,
-    name: "Placeholder",
-    chineseName: "Placeholder",
-    description: "Placeholder, for more intuitive King Wen numbering",
-    image: undefined,
-    lineInterpretations: [
-      "Placeholder",
-      "Placeholder",
-      "Placeholder",
-      "Placeholder",
-      "Placeholder",
-      "Placeholder"
-    ]
-  },
   {
     number: 1,
     name: "Qian",
     chineseName: "乾",
-    description: "創天：剛健有力，主動進取，持之以恆可成功。",
+    description: "乾：元亨利貞。",
     image: "/images/hexagrams/01.svg",
     lineInterpretations: [
       "初九：潛龍勿用。",
@@ -42,7 +29,7 @@ export const hexagrams: HexagramData[] = [
     number: 2,
     name: "Kun",
     chineseName: "坤",
-    description: "承地：柔順包容，謙卑奉獻，順勢而為可得吉。",
+    description: "坤：元亨，利牝馬之貞。君子有攸往，先迷後得主，利西南得朋，東北喪朋。安貞吉。",
     image: "/images/hexagrams/02.svg",
     lineInterpretations: [
       "初六：履霜，堅冰至。",
@@ -57,7 +44,7 @@ export const hexagrams: HexagramData[] = [
     number: 3,
     name: "Zhun",
     chineseName: "屯",
-    description: "始難：初創艱難，堅忍不拔，逐步成長。",
+    description: "屯：元亨利貞，勿用有攸往，利建侯。",
     image: "/images/hexagrams/03.svg",
     lineInterpretations: [
       "初九：磐桓，利建侯。",
@@ -72,7 +59,7 @@ export const hexagrams: HexagramData[] = [
     number: 4,
     name: "Meng",
     chineseName: "蒙",
-    description: "蒙昧：年幼無知，宜求教導，謹慎學習。",
+    description: "蒙：亨。匪我求童蒙，童蒙求我。初筮告，再三瀆，瀆則不告。利貞。",
     image: "/images/hexagrams/04.svg",
     lineInterpretations: [
       "初六：發蒙，利用刑人。",
@@ -87,7 +74,7 @@ export const hexagrams: HexagramData[] = [
     number: 5,
     name: "Xu",
     chineseName: "需",
-    description: "等待：耐心等待，準備充分，時機成熟可成。",
+    description: "需：有孚，光亨，貞吉。利涉大川。",
     image: "/images/hexagrams/05.svg",
     lineInterpretations: [
       "初九：需於郊，利用恆，無咎。",
@@ -102,7 +89,7 @@ export const hexagrams: HexagramData[] = [
     number: 6,
     name: "Song",
     chineseName: "訟",
-    description: "爭訟：避免爭端，尋求調解，中止爭執為上。",
+    description: "訟：有孚，窒。惕中吉，終凶。利見大人，不利涉大川。",
     image: "/images/hexagrams/06.svg",
     lineInterpretations: [
       "初六：不永所事，小有言，終吉。",
@@ -117,7 +104,7 @@ export const hexagrams: HexagramData[] = [
     number: 7,
     name: "Shi",
     chineseName: "師",
-    description: "軍旅：嚴明紀律，賢能領軍，團結一致可勝。",
+    description: "師：貞，丈人吉，無咎。",
     image: "/images/hexagrams/07.svg",
     lineInterpretations: [
       "初六：師出以律，否臧凶。",
@@ -132,7 +119,7 @@ export const hexagrams: HexagramData[] = [
     number: 8,
     name: "Bi",
     chineseName: "比",
-    description: "親比：團結互助，誠心相交，吉祥如意。",
+    description: "比：吉。原筮元永貞，無咎。不寧方來，後夫凶。",
     image: "/images/hexagrams/08.svg",
     lineInterpretations: [
       "初六：有孚比之，無咎。",
@@ -147,7 +134,7 @@ export const hexagrams: HexagramData[] = [
     number: 9,
     name: "Xiao Chu",
     chineseName: "小畜",
-    description: "小畜：積小成大，循序漸進，耐心等待時機。",
+    description: "小畜：亨。密雲不雨，自我西郊。",
     image: "/images/hexagrams/09.svg",
     lineInterpretations: [
       "初九：復自道，何其咎，吉。",
@@ -162,7 +149,7 @@ export const hexagrams: HexagramData[] = [
     number: 10,
     name: "Lu",
     chineseName: "履",
-    description: "履道：謹慎行事，遵循正道，敬畏權威可安。",
+    description: "履：履虎尾，不咥人，亨。",
     image: "/images/hexagrams/10.svg",
     lineInterpretations: [
       "初九：素履，往無咎。",
@@ -177,7 +164,7 @@ export const hexagrams: HexagramData[] = [
     number: 11,
     name: "Tai",
     chineseName: "泰",
-    description: "通泰：天地交泰，小往大來，順暢亨通。",
+    description: "泰：小往大來，吉亨。",
     image: "/images/hexagrams/11.svg",
     lineInterpretations: [
       "初九：拔茅茹，以其彙，徵吉。",
@@ -192,7 +179,7 @@ export const hexagrams: HexagramData[] = [
     number: 12,
     name: "Pi",
     chineseName: "否",
-    description: "閉塞：天地不交，小人得勢，君子宜守正。",
+    description: "否：否之匪人，不利君子貞，大往小來。",
     image: "/images/hexagrams/12.svg",
     lineInterpretations: [
       "初六：拔茅茹，以其彙，貞吉亨。",
@@ -207,12 +194,12 @@ export const hexagrams: HexagramData[] = [
     number: 13,
     name: "Tong Ren",
     chineseName: "同人",
-    description: "同人：志同道合，團結一致，大同世界。",
+    description: "同人：同人于野，亨。利涉大川，利君子貞。",
     image: "/images/hexagrams/13.svg",
     lineInterpretations: [
       "初九：同人於門，無咎。",
       "六二：同人於宗，吝。",
-      "九三：伏戎於莽，升其高陵，三歲不興。",
+      "九三：伏戎於莽，升其高陵三歲不興。",
       "九四：乘其墉，弗克攻，吉。",
       "九五：同人先號咷而後笑，大師克相遇。",
       "上九：同人於郊，無悔。"
@@ -222,7 +209,7 @@ export const hexagrams: HexagramData[] = [
     number: 14,
     name: "Da You",
     chineseName: "大有",
-    description: "大有：財富豐盛，光明正大，分享眾人。",
+    description: "大有：元亨。",
     image: "/images/hexagrams/14.svg",
     lineInterpretations: [
       "初九：無交害，匪咎，艱則無咎。",
@@ -237,7 +224,7 @@ export const hexagrams: HexagramData[] = [
     number: 15,
     name: "Qian",
     chineseName: "謙",
-    description: "謙虛：謙遜待人，低調行事，終得吉祥。",
+    description: "謙：亨，君子有終。",
     image: "/images/hexagrams/15.svg",
     lineInterpretations: [
       "初六：謙謙君子，用涉大川，吉。",
@@ -252,7 +239,7 @@ export const hexagrams: HexagramData[] = [
     number: 16,
     name: "Yu",
     chineseName: "豫",
-    description: "喜豫：順應時勢，樂觀積極，動而得利。",
+    description: "豫：利建侯行師。",
     image: "/images/hexagrams/16.svg",
     lineInterpretations: [
       "初六：鳴豫，凶。",
@@ -267,7 +254,7 @@ export const hexagrams: HexagramData[] = [
     number: 17,
     name: "Sui",
     chineseName: "隨",
-    description: "隨順：順應潮流，隨時而動，吉無不利。",
+    description: "隨：元亨利貞，無咎。",
     image: "/images/hexagrams/17.svg",
     lineInterpretations: [
       "初九：官有渝，貞吉，出門交有功。",
@@ -282,7 +269,7 @@ export const hexagrams: HexagramData[] = [
     number: 18,
     name: "Gu",
     chineseName: "蠱",
-    description: "蠱惑：修復腐敗，革故鼎新，需謹慎行事。",
+    description: "蠱：元亨，利涉大川。先甲三日，後甲三日。",
     image: "/images/hexagrams/18.svg",
     lineInterpretations: [
       "初六：幹父之蠱，有子，考無咎，厲終吉。",
@@ -297,7 +284,7 @@ export const hexagrams: HexagramData[] = [
     number: 19,
     name: "Lin",
     chineseName: "臨",
-    description: "親臨：以上臨下，教化眾人，需誠心正意。",
+    description: "臨：元亨利貞，至于八月有凶。",
     image: "/images/hexagrams/19.svg",
     lineInterpretations: [
       "初九：咸臨，貞吉。",
@@ -312,7 +299,7 @@ export const hexagrams: HexagramData[] = [
     number: 20,
     name: "Guan",
     chineseName: "觀",
-    description: "觀察：以德感人，靜觀其變，修身養性。",
+    description: "觀：盥而不薦，有孚顒若。",
     image: "/images/hexagrams/20.svg",
     lineInterpretations: [
       "初六：童觀，小人無咎，君子吝。",
@@ -327,7 +314,7 @@ export const hexagrams: HexagramData[] = [
     number: 21,
     name: "Shi He",
     chineseName: "噬嗑",
-    description: "咬合：破除障礙，執法公正，需果斷行動。",
+    description: "噬嗑：亨。利用獄。",
     image: "/images/hexagrams/21.svg",
     lineInterpretations: [
       "初九：屨校滅趾，無咎。",
@@ -342,7 +329,7 @@ export const hexagrams: HexagramData[] = [
     number: 22,
     name: "Bi",
     chineseName: "賁",
-    description: "裝飾：注重外表，修飾內在，適度為宜。",
+    description: "賁：亨。小利有攸往。",
     image: "/images/hexagrams/22.svg",
     lineInterpretations: [
       "初九：賁其趾，捨車而徒。",
@@ -357,7 +344,7 @@ export const hexagrams: HexagramData[] = [
     number: 23,
     name: "Bo",
     chineseName: "剝",
-    description: "剝落：陽氣衰退，陰盛陽衰，宜守正待時。",
+    description: "剝：不利有攸往。",
     image: "/images/hexagrams/23.svg",
     lineInterpretations: [
       "初六：剝床以足，蔑貞凶。",
@@ -372,7 +359,7 @@ export const hexagrams: HexagramData[] = [
     number: 24,
     name: "Fu",
     chineseName: "復",
-    description: "復返：陽氣復生，反本歸真，重新開始。",
+    description: "復：亨。出入無疾，朋來無咎。反復其道，七日來復，利有攸往。",
     image: "/images/hexagrams/24.svg",
     lineInterpretations: [
       "初九：不遠復，無祗悔，元吉。",
@@ -387,7 +374,7 @@ export const hexagrams: HexagramData[] = [
     number: 25,
     name: "Wu Wang",
     chineseName: "無妄",
-    description: "無妄：純正無邪，順應自然，切勿妄動。",
+    description: "無妄：元亨利貞。其匪正有眚，不利有攸往。",
     image: "/images/hexagrams/25.svg",
     lineInterpretations: [
       "初九：無妄，往吉。",
@@ -402,7 +389,7 @@ export const hexagrams: HexagramData[] = [
     number: 26,
     name: "Da Chu",
     chineseName: "大畜",
-    description: "大畜：蓄積力量，培養賢能，厚積薄發。",
+    description: "大畜：利貞，不家食吉，利涉大川。",
     image: "/images/hexagrams/26.svg",
     lineInterpretations: [
       "初九：有厲，利已。",
@@ -417,7 +404,7 @@ export const hexagrams: HexagramData[] = [
     number: 27,
     name: "Yi",
     chineseName: "頤",
-    description: "養頤：注重養生，自求口實，謹言慎行。",
+    description: "頤：貞吉。觀頤，自求口實。",
     image: "/images/hexagrams/27.svg",
     lineInterpretations: [
       "初九：捨爾靈龜，觀我朵頤，凶。",
@@ -432,7 +419,7 @@ export const hexagrams: HexagramData[] = [
     number: 28,
     name: "Da Guo",
     chineseName: "大過",
-    description: "大過：棟樑過重，需非常之舉，謹慎應對。",
+    description: "大過：棟橈，利有攸往，亨。",
     image: "/images/hexagrams/28.svg",
     lineInterpretations: [
       "初六：藉用白茅，無咎。",
@@ -447,7 +434,7 @@ export const hexagrams: HexagramData[] = [
     number: 29,
     name: "Kan",
     chineseName: "坎",
-    description: "坎險：身處險境，堅守正道，謹慎脫困。",
+    description: "坎：有孚，維心亨，行有尚。",
     image: "/images/hexagrams/29.svg",
     lineInterpretations: [
       "初六：習坎，入於坎窞，凶。",
@@ -455,14 +442,14 @@ export const hexagrams: HexagramData[] = [
       "六三：來之坎坎，險且枕，入於坎窞，勿用。",
       "六四：樽酒簋貳，用缶，納約自牖，終無咎。",
       "九五：坎不盈，祗既平，無咎。",
-      "上六：繫用徽纆，寘於叢棘，三歲不得，凶。"
+      "上六：繫用徽纆，寘於叢棘三歲不得，凶。"
     ]
   },
   {
     number: 30,
     name: "Li",
     chineseName: "離",
-    description: "離麗：附麗光明，保持明智，團結一致。",
+    description: "離：利貞，亨。畜牝牛吉。",
     image: "/images/hexagrams/30.svg",
     lineInterpretations: [
       "初九：履錯然，敬之無咎。",
@@ -477,7 +464,7 @@ export const hexagrams: HexagramData[] = [
     number: 31,
     name: "Xian",
     chineseName: "咸",
-    description: "感應：心心相印，相互感應，誠意動人。",
+    description: "咸：亨，利貞，取女吉。",
     image: "/images/hexagrams/31.svg",
     lineInterpretations: [
       "初六：咸其拇。",
@@ -492,7 +479,7 @@ export const hexagrams: HexagramData[] = [
     number: 32,
     name: "Heng",
     chineseName: "恆",
-    description: "恆久：持之以恆，堅守正道，長久穩定。",
+    description: "恆：亨，無咎，利貞，利有攸往。",
     image: "/images/hexagrams/32.svg",
     lineInterpretations: [
       "初六：浚恆，貞凶，無攸利。",
@@ -507,7 +494,7 @@ export const hexagrams: HexagramData[] = [
     number: 33,
     name: "Dun",
     chineseName: "遯",
-    description: "退避：小人得勢，君子退隱，等待時機。",
+    description: "遯：亨，小利貞。",
     image: "/images/hexagrams/33.svg",
     lineInterpretations: [
       "初六：遯尾，厲，勿用有攸往。",
@@ -522,7 +509,7 @@ export const hexagrams: HexagramData[] = [
     number: 34,
     name: "Da Zhuang",
     chineseName: "大壯",
-    description: "大壯：陽氣盛大，剛健有力，需謹慎用之。",
+    description: "大壯：利貞。",
     image: "/images/hexagrams/34.svg",
     lineInterpretations: [
       "初九：壯於趾，徵凶，有孚。",
@@ -537,7 +524,7 @@ export const hexagrams: HexagramData[] = [
     number: 35,
     name: "Jin",
     chineseName: "晉",
-    description: "進展：光明上升，逐步前進，終得榮耀。",
+    description: "晉：康侯用錫馬蕃庶，晝日三接。",
     image: "/images/hexagrams/35.svg",
     lineInterpretations: [
       "初六：晉如摧如，貞吉，罔孚，裕無咎。",
@@ -552,10 +539,10 @@ export const hexagrams: HexagramData[] = [
     number: 36,
     name: "Ming Yi",
     chineseName: "明夷",
-    description: "明傷：光明受損，隱藏鋒芒，宜守正自保。",
+    description: "明夷：利艱貞。",
     image: "/images/hexagrams/36.svg",
     lineInterpretations: [
-      "初九：明夷於飛，垂其翼，君子於行，三日不食，有攸往，主人有言。",
+      "初九：明夷於飛，垂其翼，君子於行三日不食，有攸往，主人有言。",
       "六二：明夷，夷於左股，用拯馬壯，吉。",
       "九三：明夷於南狩，得其大首，不可疾，貞。",
       "六四：入於左腹，獲明夷之心，於出門庭。",
@@ -567,7 +554,7 @@ export const hexagrams: HexagramData[] = [
     number: 37,
     name: "Jia Ren",
     chineseName: "家人",
-    description: "家人：治家有道，上下和睦，家庭興旺。",
+    description: "家人：利女貞。",
     image: "/images/hexagrams/37.svg",
     lineInterpretations: [
       "初九：閑有家，悔亡。",
@@ -582,7 +569,7 @@ export const hexagrams: HexagramData[] = [
     number: 38,
     name: "Kui",
     chineseName: "睽",
-    description: "乖睽：意見分歧，小事可為，需和而不同。",
+    description: "睽：小事吉。",
     image: "/images/hexagrams/38.svg",
     lineInterpretations: [
       "初九：悔亡，喪馬勿逐，自復，見惡人，無咎。",
@@ -597,7 +584,7 @@ export const hexagrams: HexagramData[] = [
     number: 39,
     name: "Jian",
     chineseName: "蹇",
-    description: "險阻：身處困境，宜退守觀望，等待救援。",
+    description: "蹇：利西南，不利東北。利見大人，貞吉。",
     image: "/images/hexagrams/39.svg",
     lineInterpretations: [
       "初六：往蹇來譽。",
@@ -612,7 +599,7 @@ export const hexagrams: HexagramData[] = [
     number: 40,
     name: "Xie",
     chineseName: "解",
-    description: "解難：解除困境，化險為夷，宜速行動。",
+    description: "解：利西南，無所往，其來復吉。有攸往，夙吉。",
     image: "/images/hexagrams/40.svg",
     lineInterpretations: [
       "初六：無咎。",
@@ -627,7 +614,7 @@ export const hexagrams: HexagramData[] = [
     number: 41,
     name: "Sun",
     chineseName: "損",
-    description: "減損：有所損失，以損下益上，謙受益。",
+    description: "損：有孚，元吉，無咎，可貞，利有攸往。曷之用？二簋可用享。",
     image: "/images/hexagrams/41.svg",
     lineInterpretations: [
       "初九：已事遄往，無咎，酌損之。",
@@ -642,7 +629,7 @@ export const hexagrams: HexagramData[] = [
     number: 42,
     name: "Yi",
     chineseName: "益",
-    description: "增益：有所增益，以益下損上，利於行動。",
+    description: "益：利有攸往，利涉大川。",
     image: "/images/hexagrams/42.svg",
     lineInterpretations: [
       "初九：利用為大作，元吉，無咎。",
@@ -657,7 +644,7 @@ export const hexagrams: HexagramData[] = [
     number: 43,
     name: "Guai",
     chineseName: "夬",
-    description: "決斷：果斷除惡，揚善去邪，需謹慎行事。",
+    description: "夬：揚於王庭，孚號有厲，告自邑，不利即戎，利有攸往。",
     image: "/images/hexagrams/43.svg",
     lineInterpretations: [
       "初九：壯於前趾，往不勝為咎。",
@@ -672,7 +659,7 @@ export const hexagrams: HexagramData[] = [
     number: 44,
     name: "Gou",
     chineseName: "姤",
-    description: "相遇：陰陽相遇，小心交往，防微杜漸。",
+    description: "姤：女壯，勿用取女。",
     image: "/images/hexagrams/44.svg",
     lineInterpretations: [
       "初六：繫於金柅，貞吉，有攸往，見凶，羸豕孚躢躅。",
@@ -687,7 +674,7 @@ export const hexagrams: HexagramData[] = [
     number: 45,
     name: "Cui",
     chineseName: "萃",
-    description: "聚集：群聚一心，團結一致，利於大事。",
+    description: "萃：亨。王假有廟，利見大人，亨，利貞。用大牲吉，利有攸往。",
     image: "/images/hexagrams/45.svg",
     lineInterpretations: [
       "初六：有孚不終，乃亂乃萃，若號一握為笑，勿恤，往無咎。",
@@ -702,7 +689,7 @@ export const hexagrams: HexagramData[] = [
     number: 46,
     name: "Sheng",
     chineseName: "升",
-    description: "上升：循序漸進，努力向上，終得高升。",
+    description: "升：元亨，用見大人，勿恤，南征吉。",
     image: "/images/hexagrams/46.svg",
     lineInterpretations: [
       "初六：允升，大吉。",
@@ -717,10 +704,10 @@ export const hexagrams: HexagramData[] = [
     number: 47,
     name: "Kun",
     chineseName: "困",
-    description: "困乏：身處困境，堅守正道，等待救援。",
+    description: "困：亨，貞，大人吉，無咎，有言不信。",
     image: "/images/hexagrams/47.svg",
     lineInterpretations: [
-      "初六：臀困於株木，入於幽谷，三歲不覿。",
+      "初六：臀困於株木，入於幽谷三歲不覿。",
       "九二：困於酒食，朱紱方來，利用享祀，徵凶，無咎。",
       "六三：困於石，據於蒺藜，入於其宮，不見其妻，凶。",
       "九四：來徐徐，困於金車，吝，有終。",
@@ -732,7 +719,7 @@ export const hexagrams: HexagramData[] = [
     number: 48,
     name: "Jing",
     chineseName: "井",
-    description: "水井：修井養德，汲水濟人，需誠心奉獻。",
+    description: "井：改邑不改井，無喪無得，往來井井。汔至亦未繘井，羸其瓶，凶。",
     image: "/images/hexagrams/48.svg",
     lineInterpretations: [
       "初六：井泥不食，舊井無禽。",
@@ -747,7 +734,7 @@ export const hexagrams: HexagramData[] = [
     number: 49,
     name: "Ge",
     chineseName: "革",
-    description: "革故：除舊布新，革故鼎新，需順應時勢。",
+    description: "革：巳日乃孚，元亨利貞，悔亡。",
     image: "/images/hexagrams/49.svg",
     lineInterpretations: [
       "初九：鞏用黃牛之革。",
@@ -762,7 +749,7 @@ export const hexagrams: HexagramData[] = [
     number: 50,
     name: "Ding",
     chineseName: "鼎",
-    description: "鼎盛：穩固根基，烹飪調和，利於新事業。",
+    description: "鼎：元吉，亨。",
     image: "/images/hexagrams/50.svg",
     lineInterpretations: [
       "初六：鼎顛趾，利出否，得妾以其子，無咎。",
@@ -777,7 +764,7 @@ export const hexagrams: HexagramData[] = [
     number: 51,
     name: "Zhen",
     chineseName: "震",
-    description: "震動：雷霆震動，驚醒奮起，謹慎行動。",
+    description: "震：亨。震來虩虩，笑言啞啞，震驚百里，不喪匕鬯。",
     image: "/images/hexagrams/51.svg",
     lineInterpretations: [
       "初九：震來虩虩，後笑言啞啞，吉。",
@@ -792,7 +779,7 @@ export const hexagrams: HexagramData[] = [
     number: 52,
     name: "Gen",
     chineseName: "艮",
-    description: "止艮：適時而止，靜觀其變，修身養性。",
+    description: "艮：艮其背，不獲其身，行其庭，不見其人，無咎。",
     image: "/images/hexagrams/52.svg",
     lineInterpretations: [
       "初六：艮其趾，無咎，利永貞。",
@@ -807,7 +794,7 @@ export const hexagrams: HexagramData[] = [
     number: 53,
     name: "Jian",
     chineseName: "漸",
-    description: "漸進：循序漸進，穩步向前，終得成功。",
+    description: "漸：女歸吉，利貞。",
     image: "/images/hexagrams/53.svg",
     lineInterpretations: [
       "初六：鴻漸於干，小子厲，有言，無咎。",
@@ -822,7 +809,7 @@ export const hexagrams: HexagramData[] = [
     number: 54,
     name: "Gui Mei",
     chineseName: "歸妹",
-    description: "歸妹：女子出嫁，需正位以待，切勿妄動。",
+    description: "歸妹：徵凶，無攸利。",
     image: "/images/hexagrams/54.svg",
     lineInterpretations: [
       "初九：歸妹以娣，跛能履，徵吉。",
@@ -837,7 +824,7 @@ export const hexagrams: HexagramData[] = [
     number: 55,
     name: "Feng",
     chineseName: "豐",
-    description: "豐盛：盛大光明，需謹慎持盈，防過猶不及。",
+    description: "豐：亨，王假之，勿憂，宜日中。",
     image: "/images/hexagrams/55.svg",
     lineInterpretations: [
       "初九：遇其配主，雖旬無咎，往有尚。",
@@ -845,14 +832,14 @@ export const hexagrams: HexagramData[] = [
       "九三：豐其沛，日中見昧，折其右肱，無咎。",
       "九四：豐其蔀，日中見斗，遇其夷主，吉。",
       "六五：來章，有慶譽，吉。",
-      "上六：豐其屋，蔀其家，窺其戶，闃其無人，三歲不覿，凶。"
+      "上六：豐其屋，蔀其家，窺其戶，闃其無人三歲不覿，凶。"
     ]
   },
   {
     number: 56,
     name: "Lu",
     chineseName: "旅",
-    description: "旅居：客居他鄉，謹慎小心，宜守正道。",
+    description: "旅：小亨，旅貞吉。",
     image: "/images/hexagrams/56.svg",
     lineInterpretations: [
       "初六：旅瑣瑣，斯其所取災。",
@@ -867,7 +854,7 @@ export const hexagrams: HexagramData[] = [
     number: 57,
     name: "Xun",
     chineseName: "巽",
-    description: "巽順：柔順謙卑，隨風而行，循序漸進。",
+    description: "巽：小亨，利有攸往，利見大人。",
     image: "/images/hexagrams/57.svg",
     lineInterpretations: [
       "初六：進退，利武人之貞。",
@@ -878,18 +865,20 @@ export const hexagrams: HexagramData[] = [
       "上九：巽在床下，喪其資斧，貞凶。"
     ]
   },
+  // Continuing from Hexagram 58 in src/data/hexagrams.ts
+
   {
     number: 58,
     name: "Dui",
     chineseName: "兌",
-    description: "喜兌：和悅交流，言笑晏晏，利於正道。",
+    description: "兌：亨，利貞。",
     image: "/images/hexagrams/58.svg",
     lineInterpretations: [
       "初九：和兌，吉。",
       "九二：孚兌，吉，悔亡。",
       "六三：來兌，凶。",
       "九四：商兌未寧，介疾有喜。",
-      "九五：孚於剝，有厲。",
+      "九五：�fu於剝，有厲。",
       "上六：引兌。"
     ]
   },
@@ -897,7 +886,7 @@ export const hexagrams: HexagramData[] = [
     number: 59,
     name: "Huan",
     chineseName: "渙",
-    description: "渙散：離散之後，重新凝聚，需誠心團結。",
+    description: "渙：亨。王假有廟，利涉大川，利貞。",
     image: "/images/hexagrams/59.svg",
     lineInterpretations: [
       "初六：用拯馬壯，吉。",
@@ -912,7 +901,7 @@ export const hexagrams: HexagramData[] = [
     number: 60,
     name: "Jie",
     chineseName: "節",
-    description: "節制：適度節制，有節有度，利於行事。",
+    description: "節：亨。苦節不可貞。",
     image: "/images/hexagrams/60.svg",
     lineInterpretations: [
       "初九：不出戶庭，無咎。",
@@ -927,7 +916,7 @@ export const hexagrams: HexagramData[] = [
     number: 61,
     name: "Zhong Fu",
     chineseName: "中孚",
-    description: "中孚：誠信感人，中心信實，利於涉險。",
+    description: "中孚：豚魚吉，利涉大川，利貞。",
     image: "/images/hexagrams/61.svg",
     lineInterpretations: [
       "初九：虞吉，有他不燕。",
@@ -942,7 +931,7 @@ export const hexagrams: HexagramData[] = [
     number: 62,
     name: "Xiao Guo",
     chineseName: "小過",
-    description: "小過：小有過錯，謹慎小心，宜靜不宜動。",
+    description: "小過：亨，利貞，可小事，不可大事。飛鳥遺之音，不宜上，宜下，大吉。",
     image: "/images/hexagrams/62.svg",
     lineInterpretations: [
       "初六：飛鳥以凶。",
@@ -957,7 +946,7 @@ export const hexagrams: HexagramData[] = [
     number: 63,
     name: "Ji Ji",
     chineseName: "既濟",
-    description: "既濟：事已完成，持盈保泰，防微杜漸。",
+    description: "既濟：亨，小利貞，初吉終亂。",
     image: "/images/hexagrams/63.svg",
     lineInterpretations: [
       "初九：曳其輪，濡其尾，無咎。",
@@ -972,15 +961,15 @@ export const hexagrams: HexagramData[] = [
     number: 64,
     name: "Wei Ji",
     chineseName: "未濟",
-    description: "未濟：尚未完成，需謹慎行事，終可成功。",
+    description: "未濟：亨。小狐汔濟，濡其尾，無攸利。",
     image: "/images/hexagrams/64.svg",
     lineInterpretations: [
       "初六：濡其尾，吝。",
       "九二：曳其輪，貞吉。",
       "六三：未濟，徵凶，利涉大川。",
       "九四：貞吉悔亡，震用伐鬼方，三年有賞於大國。",
-      "六五：貞吉，無悔，君子之光，有孚吉。",
+      "六五：貞吉，無悔，君子之光，有�fu吉。",
       "上九：有孚於飲酒，無咎，濡其首，有孚失是。"
     ]
   }
-]
+];

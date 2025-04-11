@@ -77,16 +77,13 @@ export const createHexagram = (lines: LineType[]): Hexagram => {
   if (lines.length !== 6) {
     throw new Error(`Invalid number of lines: expected 6, got ${lines.length}`);
   }
-  let binary = lines.map(line => (line.includes('yang') ? 1 : 0)).join('');
-  // Binary is calculated from top to bottom
-  binary = binary.split('').reverse().join(''); // Reverse the binary string
+  const binary = lines.map(line => (line.includes('yang') ? 1 : 0)).join('');
   console.log('binary number calculated:', binary);
   const binaryNumber = parseInt(binary, 2) + 1; ; 
   console.log('binary number calculated:', binaryNumber);
   const hexagramNumber = binaryToHexagramNumber[binaryNumber-1];
   console.log('King Wen Number calculated:', hexagramNumber);
-  // Inserted placeholder in data, becomes 1-indexed
-  const hexagramData = hexagrams[hexagramNumber]; 
+  const hexagramData = hexagrams[hexagramNumber-1]; 
   console.log('Hexagram data retrieved:', hexagramData);
 
   if (!hexagramData) {

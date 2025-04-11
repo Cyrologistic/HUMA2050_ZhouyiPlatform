@@ -6,12 +6,12 @@ import './HexagramGuide.css';
 const HexagramGuide: React.FC = () => {
   return (
     <div className="hexagram-guide">
-      <h2>Hexagram Guide</h2>
+      <h2>卦辭一覧</h2>
       <div className="hexagram-list">
-        {hexagrams.map((hexagram) => (
+        {hexagrams.map((hexagram) => ( 
           <div key={hexagram.number} className="hexagram-card">
             <h3>
-              {hexagram.number}. {hexagram.name} ({hexagram.chineseName})
+              {hexagram.number}. {hexagram.chineseName}
             </h3>
             {hexagram.image ? (
               <img
