@@ -72,7 +72,7 @@ export const generateInterpretation = async ({
       {
         model: 'deepseek/deepseek-r1-zero:free',
         messages: [
-          { role: 'user', content: prompt },
+          { role: 'system', content: prompt },
           { role: 'user', content: input },
         ],
         max_tokens: 4096,
