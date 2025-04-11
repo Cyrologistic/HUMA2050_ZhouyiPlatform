@@ -38,14 +38,20 @@ export const generateInterpretation = async ({
   }
   #### 注意事項： 
   - 不可從網上即時獲取資料，請根據你已有的知識來解讀卦辭和爻辭。
-  - 你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。
-  - 不要有"問卦人詢問"的字眼
+  - 你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。
+  - 不要有"問卦人詢問"的字眼。
   - interpretation 以"卦象"開頭，然後是卦辭的內容，然後是爻辭的內容，最後是建議的內容。
-  - 請確保內容沒有會令JSON無法解析的字符,例如"Bad control character"。
+  - 輸出必須是有效的 JSON 格式，且不得包含多餘的換行符或格式化字符（例如 \\n、\\t)。請確保輸出是一個單行的 JSON 字符串。
+  - 不要在 interpretation 內容中使用 Markdown 格式（例如 **加粗** 或 *斜體*），所有文字應為純文本。
   
   ### 輸出格式： JSON格式如下,請一定遵循這個格式:
   {
     "interpretation": "解讀的內容+建議",
+  }
+
+  #### 輸出示例：
+  {
+    "interpretation": "卦象為「頤」卦，卦辭為「貞吉。觀頤，自求口實。」這意味著..."
   }
   `;
 
@@ -88,39 +94,59 @@ export const generateInterpretation = async ({
       }
     );
 
-    let interpretation = response.data.choices[0].message.content.trim();
+    // let interpretation = response.data.choices[0].message.content.trim();
 
-    interpretation = interpretation.replace("\\boxed{\n", '');
-    interpretation = interpretation.substring(0, interpretation.length - 1);
-    interpretation = interpretation.replace("*", "");
-    interpretation = interpretation.replace("**", "");
-    interpretation = interpretation.replace(/[\r|\n|\t]/g,"")
-    interpretation = interpretation.replace("\n", "");
-    interpretation = interpretation.replace("\n\n", "");
-    interpretation = interpretation.replace("\r", "");
-    interpretation = interpretation.replace("\t", "");
+    // interpretation = interpretation.replace("\\boxed{\n", '');
+    // interpretation = interpretation.substring(0, interpretation.length - 1);
+    // interpretation = interpretation.replace("*", "");
+    // interpretation = interpretation.replace("**", "");
+    // interpretation = interpretation.replace(/[\r|\n|\t]/g,"")
+    // interpretation = interpretation.replace("\n", "");
+    // interpretation = interpretation.replace("\n\n", "");
+    // interpretation = interpretation.replace("\\\\n", "");
+    // interpretation = interpretation.replace("\r", "");
+    // interpretation = interpretation.replace("\t", "");
 
-    let parsedResponse = JSON.stringify(interpretation);
-    parsedResponse = interpretation.replace("*", "");
-    parsedResponse = parsedResponse.replace("**", "");
-    parsedResponse = parsedResponse.replace(/[\r|\n|\t]/g,"")
-    parsedResponse = parsedResponse.replace("\n", "");
-    parsedResponse = parsedResponse.replace("\n\n", "");
-    parsedResponse = parsedResponse.replace("\r", "");
-    parsedResponse = parsedResponse.replace("\t", "");
+    // let parsedResponse = JSON.stringify(interpretation);
+    // parsedResponse = parsedResponse.replace("*", "");
+    // parsedResponse = parsedResponse.replace("**", "");
+    // parsedResponse = parsedResponse.replace(/[\r|\n|\t]/g,"")
+    // parsedResponse = parsedResponse.replace("\n", "");
+    // parsedResponse = parsedResponse.replace("\n\n", "");
+    // parsedResponse = parsedResponse.replace("\\\\n", "");
+    // parsedResponse = parsedResponse.replace("\r", "");
+    // parsedResponse = parsedResponse.replace("\t", "");
+    // parsedResponse = parsedResponse.replace("{", "");
+    // parsedResponse = parsedResponse.replace("}", "");
+    // parsedResponse = parsedResponse.replace("\"interpretation\":", "");
+    // parsedResponse = parsedResponse.replace("\"", "");
 
-    let jsonResponse = JSON.parse(parsedResponse);
-    jsonResponse = jsonResponse.replace("\"interpretation\":", "");
-    jsonResponse = jsonResponse.replace("{", "");
-    jsonResponse = jsonResponse.replace("}", "");
-    jsonResponse = jsonResponse.replace("\"", "");
-    jsonResponse = jsonResponse.replace("\n", "");
-    jsonResponse = jsonResponse.replace("\n\n", "");
-    console.log(jsonResponse)
+    let interpretation = response.data.choices[0].message.content.trim().replace("\\boxed","");
 
-    if (jsonResponse) {
-      const interpretation_parsed = jsonResponse;
-      return interpretation_parsed;
+    console.log('Raw LLM response:', interpretation);
+
+    // Attempt to parse the response as JSON
+    let parsedResponse;
+    try {
+      parsedResponse = JSON.parse(interpretation);
+    } catch (error) {
+      console.error('Failed to parse LLM response as JSON:', error);
+      // If parsing fails, assume the response is a plain text string and clean it
+      interpretation = interpretation
+        .replace(/\\boxed\{.*?\}/g, '') // Remove LaTeX boxed formatting
+        .replace(/[\r\n\t]+/g, ' ') // Replace newlines, carriage returns, and tabs with a single space
+        .replace(/\s+/g, ' ') // Collapse multiple spaces into a single space
+        .replace(/[*]+/g, '') // Remove asterisks (e.g., *, **)
+        .trim();
+
+      // Wrap the cleaned string in the expected JSON structure
+      parsedResponse = { interpretation };
+    }
+
+    console.log('Parsed response:', parsedResponse);
+
+    if (parsedResponse.interpretation) {
+      return parsedResponse.interpretation;
     } else {
       throw new Error('Interpretation field not found in LLM response.');
     }
