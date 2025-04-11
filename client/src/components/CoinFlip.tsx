@@ -67,7 +67,6 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   };
 
   const getHexagramNumberName = (num: number): string => {
-    num = binaryToHexagramNumber[num];
     if (num < 10) {
       return getChineseNumberName(num);
     } else {
