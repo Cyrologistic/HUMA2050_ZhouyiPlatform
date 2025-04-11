@@ -91,12 +91,8 @@ export const generateInterpretation = async ({
 
     interpretation = interpretation.replace("\\boxed{\n", '');
     interpretation = interpretation.substring(0, interpretation.length - 1);
-    interpretation = interpretation.replace("\r", "");
-    interpretation = interpretation.replace("\n\n", "[n]");
-    interpretation = interpretation.replace("\t", "[t]");
-    interpretation = interpretation.replace("\n", "");
     interpretation = interpretation.replace("*", "");
-    // interpretation = interpretation.replace(/[\r|\n|\t]/g,"")
+    interpretation = interpretation.replace(/[\r|\n|\t]/g,"")
 
     const parsedResponse = JSON.stringify(interpretation);
     let jsonResponse = JSON.parse(parsedResponse);
@@ -107,9 +103,7 @@ export const generateInterpretation = async ({
     console.log(jsonResponse)
 
     if (jsonResponse) {
-      let interpretation_parsed = jsonResponse;
-      interpretation_parsed = interpretation_parsed.replace("[n]", "\n\n");
-      interpretation_parsed = interpretation_parsed.replace("[t]", "\t");
+      const interpretation_parsed = jsonResponse;
       return interpretation_parsed;
     } else {
       throw new Error('Interpretation field not found in LLM response.');
