@@ -40,6 +40,7 @@ export const generateInterpretation = async ({
   - 你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。你可以使用周易的經典文獻，如《周易》、《周易正義》等，來幫助你解讀卦辭和爻辭。
   - 不要有"問卦人詢問"的字眼
   - interpretation 以"卦象"開頭，然後是卦辭的內容，然後是爻辭的內容，最後是建議的內容。
+  - 請確保內容沒有會令JSON無法解析的字符,例如"Bad control character"。
   
   ### 輸出格式： JSON格式如下,請一定遵循這個格式:
   {
@@ -88,8 +89,6 @@ export const generateInterpretation = async ({
 
     let interpretation = response.data.choices[0].message.content.trim();
 
-    console.log(interpretation)
-
     interpretation = interpretation.replace("\\boxed{\n", '');
     interpretation = interpretation.substring(0, interpretation.length - 1);
     interpretation = interpretation.replace("\r", "");
@@ -99,12 +98,15 @@ export const generateInterpretation = async ({
     interpretation = interpretation.replace("*", "");
     // interpretation = interpretation.replace(/[\r|\n|\t]/g,"")
 
-    console.log(interpretation)
-
-    const parsedResponse = JSON.parse(interpretation);
+    const parsedResponse = JSON.stringify(interpretation);
+    let jsonResponse = JSON.parse(parsedResponse);
+    jsonResponse = jsonResponse.replace("\"interpretation\":", "");
+    jsonResponse = jsonResponse.replace("{", "");
+    jsonResponse = jsonResponse.replace("}", "");
+    console.log(jsonResponse)
     
-    if (parsedResponse && parsedResponse.interpretation) {
-      let interpretation_parsed = parsedResponse.interpretation
+    if (jsonResponse && jsonResponse.interpretation) {
+      let interpretation_parsed = jsonResponse;
       interpretation_parsed = interpretation_parsed.replace("[n]", "\n\n");
       interpretation_parsed = interpretation_parsed.replace("[t]", "\t");
       return interpretation_parsed;
