@@ -1,7 +1,7 @@
-// src/components/CoinFlip.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { LineType, Hexagram } from '../types/iching';
 import { generateLine, createHexagram } from '../utils/iching';
+import { generateInterpretation } from '../utils/llm'; // Import the new LLM function
 import './CoinFlip.css';
 
 interface CoinFlipProps {
@@ -18,6 +18,9 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   const [isFlipping, setIsFlipping] = useState<boolean>(false);
   const [hexagram, setHexagram] = useState<ReturnType<typeof createHexagram> | null>(null);
   const [manualTosses, setManualTosses] = useState<(2 | 3)[]>([2, 2, 2]);
+  const [interpretation, setInterpretation] = useState<string>(''); // New state for LLM interpretation
+  const [interpretationLoading, setInterpretationLoading] = useState<boolean>(false); // Loading state for LLM call
+  const [interpretationError, setInterpretationError] = useState<string>(''); // Error state for LLM call
   const hexagramRef = useRef<HTMLDivElement>(null);
 
   const getChineseLineName = (lineNumber: number): string => {
@@ -78,17 +81,15 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     }
   };
 
-  // Function to check if the input contains Chinese characters
   const containsChinese = (text: string): boolean => {
     const chineseRegex = /[\u4E00-\u9FFF]/;
     return chineseRegex.test(text);
   };
 
-  // Function to compute the secondary hexagram by flipping changing lines
   const computeSecondaryHexagram = (primaryHexagram: Hexagram): Hexagram => {
     const newLines = primaryHexagram.lines.map((line) => {
-      if (line === 'old_yin') return 'unbroken'; // Old Yin -> Yang
-      if (line === 'old_yang') return 'broken'; // Old Yang -> Yin
+      if (line === 'old_yin') return 'young_yang'; // Old Yin -> Yang
+      if (line === 'old_yang') return 'young_yin'; // Old Yang -> Yin
       return line; // Non-changing lines remain the same
     }) as LineType[];
     return createHexagram(newLines);
@@ -118,10 +119,12 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
       setLines([]);
       setAllTosses([]);
       setHexagram(null);
+      setInterpretation(''); // Reset interpretation
+      setInterpretationError('');
     }
   };
 
-  const handleFlip = () => {
+  const handleFlip = async () => {
     if (lines.length < 6 && !isFlipping) {
       setIsFlipping(true);
       const tosses = Array(3)
@@ -137,11 +140,11 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
 
         if (updatedLines.length === 6) {
           const newHexagram = createHexagram(updatedLines);
-          setTimeout(() => {
-            setHexagram(newHexagram);
-            console.log('Hexagram set:', newHexagram);
-            onComplete(newHexagram);
-          }, 100);
+          setHexagram(newHexagram);
+          onComplete(newHexagram);
+
+          // Generate LLM interpretation
+          generateLLMInterpretation(newHexagram);
         }
       }, 1000);
     }
@@ -153,7 +156,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     setManualTosses(updatedTosses);
   };
 
-  const handleManualTossSubmit = () => {
+  const handleManualTossSubmit = async () => {
     console.log('handleManualTossSubmit called: lines.length =', lines.length);
     if (lines.length < 6) {
       console.log('Manual tosses:', manualTosses, 'Sum:', manualTosses.reduce((acc, curr) => acc + curr, 0));
@@ -163,18 +166,18 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
       const updatedLines = [...lines, newLine];
       console.log('Updated lines:', updatedLines);
       setLines(updatedLines);
-  
+
       if (updatedLines.length === 6) {
         console.log('Six lines reached, generating hexagram');
         try {
           const newHexagram = createHexagram(updatedLines);
           console.log('createHexagram result:', newHexagram);
-          setTimeout(() => {
-            console.log('Setting hexagram state');
-            setHexagram(newHexagram);
-            console.log('Hexagram set:', newHexagram);
-            onComplete(newHexagram);
-          }, 100);
+          setHexagram(newHexagram);
+          console.log('Hexagram set:', newHexagram);
+          onComplete(newHexagram);
+
+          // Generate LLM interpretation
+          generateLLMInterpretation(newHexagram);
         } catch (error) {
           console.error('Error in createHexagram:', error);
         }
@@ -186,25 +189,30 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     }
   };
 
-  // const handleManualTossSubmit = () => {
-  //   if (lines.length < 6) {
-  //     setAllTosses([...allTosses, manualTosses]);
-  //     const newLine = generateLine(manualTosses);
-  //     const updatedLines = [...lines, newLine];
-  //     setLines(updatedLines);
+  // Function to generate LLM interpretation
+  const generateLLMInterpretation = async (hexagram: Hexagram) => {
+    setInterpretationLoading(true);
+    setInterpretationError('');
+    try {
+      // Identify changing lines and their interpretations
+      const changingLines = hexagram.lines
+        .map((line, index) => (line === 'old_yin' || line === 'old_yang' ? index : -1))
+        .filter(index => index !== -1);
+      const changingLineInterpretations = changingLines.map(index => hexagram.lineInterpretations[index]);
 
-  //     if (updatedLines.length === 6) {
-  //       const newHexagram = createHexagram(updatedLines);
-  //       setTimeout(() => {
-  //         setHexagram(newHexagram);
-  //         console.log('Hexagram set:', newHexagram);
-  //         onComplete(newHexagram);
-  //       }, 100);
-  //     } else {
-  //       setManualTosses([2, 2, 2]);
-  //     }
-  //   }
-  // };
+      const interpretation = await generateInterpretation({
+        question,
+        hexagram,
+        changingLineInterpretations,
+      });
+      setInterpretation(interpretation);
+    } catch (error) {
+      console.error('Error generating LLM interpretation:', error);
+      setInterpretationError('無法生成解釋，請稍後再試。');
+    } finally {
+      setInterpretationLoading(false);
+    }
+  };
 
   const handleStartOver = () => {
     setQuestion('');
@@ -216,6 +224,9 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     setIsFlipping(false);
     setHexagram(null);
     setManualTosses([2, 2, 2]);
+    setInterpretation(''); // Reset interpretation
+    setInterpretationError('');
+    setInterpretationLoading(false);
   };
 
   useEffect(() => {
@@ -227,7 +238,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   // Count changing lines and get their interpretations
   const changingLines = hexagram
     ? hexagram.lines
-        .map((line, index) => (line.includes('changing') ? index : -1))
+        .map((line, index) => (line === 'old_yin' || line === 'old_yang' ? index : -1))
         .filter(index => index !== -1)
     : [];
 
@@ -367,7 +378,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
             {hexagram && (
               <div className="hexagram-section visible" ref={hexagramRef}>
                 <h3>
-                  第{getHexagramNumberName(hexagram.number)}掛: {hexagram.chineseName}
+                  第{getHexagramNumberName(hexagram.number)}卦: {hexagram.chineseName}
                 </h3>
                 {hexagram.image ? (
                   <img
@@ -383,7 +394,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                     <div
                       key={index}
                       className={`line ${line}`}
-                      title={line.includes('changing') ? '變爻' : ''}
+                      title={line.includes('old') ? '變爻' : ''}
                     ></div>
                   ))}
                 </div>
@@ -405,7 +416,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                   )}
                   {secondaryHexagram && (
                     <>
-                      <h4>之卦 (第{getHexagramNumberName(secondaryHexagram.number)}掛: {secondaryHexagram.chineseName}):</h4>
+                      <h4>之卦 (第{getHexagramNumberName(secondaryHexagram.number)}卦: {secondaryHexagram.chineseName}):</h4>
                       <div className="lines">
                         {secondaryHexagram.lines.map((line, index) => (
                           <div
@@ -417,13 +428,23 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                       <p>{secondaryHexagram.description}</p>
                     </>
                   )}
+                  <h4>個人化解釋:</h4>
+                  {interpretationLoading ? (
+                    <p>正在生成解釋，請稍候...</p>
+                  ) : interpretationError ? (
+                    <p className="error-message">{interpretationError}</p>
+                  ) : interpretation ? (
+                    <p>{interpretation}</p>
+                  ) : (
+                    <p>無法生成解釋，請重新嘗試。</p>
+                  )}
                 </div>
               </div>
             )}
             {hexagram && (
               <div className="reserved-section">
                 <button className="start-over-button" onClick={handleStartOver}>
-                  重新擲掛
+                  重新擲卦
                 </button>
               </div>
             )}

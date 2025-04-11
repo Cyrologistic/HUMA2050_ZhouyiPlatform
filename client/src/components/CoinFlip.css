@@ -750,11 +750,26 @@ button:active:not(:disabled) {
   color: #D4AF37;
 }
 
-/* Update the .hexagram-section .description h4 for consistency */
 .hexagram-section .description h4 {
   font-family: 'Playfair Display', 'Noto Sans SC', sans-serif;
   font-size: 1.3rem;
   color: #2A4365;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+}
+
+.description h4 {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.description p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 0.9rem;
 }
