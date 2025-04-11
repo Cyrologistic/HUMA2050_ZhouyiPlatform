@@ -77,8 +77,10 @@ export const createHexagram = (lines: LineType[]): Hexagram => {
   if (lines.length !== 6) {
     throw new Error(`Invalid number of lines: expected 6, got ${lines.length}`);
   }
-  
-  const binary = lines.map(line => (line.includes('yang') ? 1 : 0)).join('');
+  let binary = lines.map(line => (line.includes('yang') ? 1 : 0)).join('');
+  // Binary is calculated from top to bottom
+  binary = binary.split('').reverse().join(''); // Reverse the binary string
+  console.log('binary number calculated:', binary);
   const binaryNumber = parseInt(binary, 2) + 1; ; 
   console.log('binary number calculated:', binaryNumber);
   const hexagramNumber = binaryToHexagramNumber[binaryNumber-1];
