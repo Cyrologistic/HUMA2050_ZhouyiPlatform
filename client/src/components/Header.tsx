@@ -27,12 +27,12 @@ const Header: React.FC = () => {
           >
             卦辭指南
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/about"
             className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
           >
             關於周易
-          </NavLink>
+          </NavLink> */}
         </nav>
       </div>
     </header>
