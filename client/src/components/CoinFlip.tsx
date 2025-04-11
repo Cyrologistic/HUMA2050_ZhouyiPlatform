@@ -1,7 +1,7 @@
 // src/components/CoinFlip.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { LineType, Hexagram } from '../types/iching';
-import { generateLine, createHexagram, binaryToHexagramNumber } from '../utils/iching';
+import { generateLine, createHexagram } from '../utils/iching';
 import './CoinFlip.css';
 
 interface CoinFlipProps {
