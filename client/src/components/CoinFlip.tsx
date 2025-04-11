@@ -1,7 +1,7 @@
 // src/components/CoinFlip.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { LineType, Hexagram } from '../types/iching';
-import { generateLine, createHexagram } from '../utils/iching';
+import { generateLine, createHexagram, binaryToHexagramNumber } from '../utils/iching';
 import './CoinFlip.css';
 
 interface CoinFlipProps {
@@ -67,6 +67,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   };
 
   const getHexagramNumberName = (num: number): string => {
+    num = binaryToHexagramNumber[num];
     if (num < 10) {
       return getChineseNumberName(num);
     } else {
@@ -87,8 +88,8 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   // Function to compute the secondary hexagram by flipping changing lines
   const computeSecondaryHexagram = (primaryHexagram: Hexagram): Hexagram => {
     const newLines = primaryHexagram.lines.map((line) => {
-      if (line === 'broken-changing') return 'unbroken'; // Old Yin -> Yang
-      if (line === 'unbroken-changing') return 'broken'; // Old Yang -> Yin
+      if (line === 'old_yin') return 'unbroken'; // Old Yin -> Yang
+      if (line === 'old_yang') return 'broken'; // Old Yang -> Yin
       return line; // Non-changing lines remain the same
     }) as LineType[];
     return createHexagram(newLines);
@@ -154,24 +155,57 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
   };
 
   const handleManualTossSubmit = () => {
+    console.log('handleManualTossSubmit called: lines.length =', lines.length);
     if (lines.length < 6) {
+      console.log('Manual tosses:', manualTosses, 'Sum:', manualTosses.reduce((acc, curr) => acc + curr, 0));
       setAllTosses([...allTosses, manualTosses]);
       const newLine = generateLine(manualTosses);
+      console.log('Generated line:', newLine);
       const updatedLines = [...lines, newLine];
+      console.log('Updated lines:', updatedLines);
       setLines(updatedLines);
-
+  
       if (updatedLines.length === 6) {
-        const newHexagram = createHexagram(updatedLines);
-        setTimeout(() => {
-          setHexagram(newHexagram);
-          console.log('Hexagram set:', newHexagram);
-          onComplete(newHexagram);
-        }, 100);
+        console.log('Six lines reached, generating hexagram');
+        try {
+          const newHexagram = createHexagram(updatedLines);
+          console.log('createHexagram result:', newHexagram);
+          setTimeout(() => {
+            console.log('Setting hexagram state');
+            setHexagram(newHexagram);
+            console.log('Hexagram set:', newHexagram);
+            onComplete(newHexagram);
+          }, 100);
+        } catch (error) {
+          console.error('Error in createHexagram:', error);
+        }
       } else {
         setManualTosses([2, 2, 2]);
       }
+    } else {
+      console.log('Toss prevented: lines.length =', lines.length);
     }
   };
+
+  // const handleManualTossSubmit = () => {
+  //   if (lines.length < 6) {
+  //     setAllTosses([...allTosses, manualTosses]);
+  //     const newLine = generateLine(manualTosses);
+  //     const updatedLines = [...lines, newLine];
+  //     setLines(updatedLines);
+
+  //     if (updatedLines.length === 6) {
+  //       const newHexagram = createHexagram(updatedLines);
+  //       setTimeout(() => {
+  //         setHexagram(newHexagram);
+  //         console.log('Hexagram set:', newHexagram);
+  //         onComplete(newHexagram);
+  //       }, 100);
+  //     } else {
+  //       setManualTosses([2, 2, 2]);
+  //     }
+  //   }
+  // };
 
   const handleStartOver = () => {
     setQuestion('');
@@ -277,7 +311,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
 
           {!hexagram && mode === 'manual' && (
             <div className="manual-input">
-              <h4>請設置 {getChineseLineName(lines.length + 1)} (第 {getChineseNumberName(lines.length + 1)} 爻)</h4>
+              <h4>請設置 {getChineseLineName(lines.length + 1)} (第{getChineseNumberName(lines.length + 1)}爻)</h4>
               <div className="manual-toss-input">
                 {manualTosses.map((toss, index) => (
                   <div
