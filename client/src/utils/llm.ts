@@ -65,11 +65,11 @@ export const generateInterpretation = async ({
     - interpretation 以"卦象"開頭，然後是卦辭的內容，然後是爻辭的內容，最後是建議的內容。
     - 輸出必須是有效的 JSON 格式，且不得包含多餘的換行符或格式化字符（例如 \\n、\\t)。請確保輸出是一個單行的 JSON 字符串。
     - 不要在 interpretation 內容中使用 Markdown 格式（例如 **加粗** 或 *斜體*），所有文字應為純文本。
-
+    - 不要在 interpretation 內容中使用額外字符如{ }或[]，只需使用純文本。
+    
     ### 輸出格式： JSON格式如下,請一定遵循這個格式:
     {
       "interpretation": "解讀的內容+建議"
-
     }
     #### 輸出示例：
     {
@@ -133,7 +133,7 @@ export const generateInterpretation = async ({
 
   // For verifying
   console.log('Input to LLM:', input);
-  
+
   try {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
