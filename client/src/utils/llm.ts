@@ -51,9 +51,9 @@ export const generateInterpretation = async ({
       ],
       "changedHexagram": {
         "number": 12,
-        "name": "Mingyi",
+        "name": "Pi",
         "description": "否：否之匪人，不利君子貞，大往小來。",
-        "lines": ["young_yin", "young_yin", "young_yin", "young_yang", "old_yang", "young_yang"],
+        "lines": ["young_yin", "young_yin", "young_yin", "young_yang", "young_yang", "young_yang"],
         "chineseName": "否"
       }
     }
@@ -131,6 +131,9 @@ export const generateInterpretation = async ({
       `
   }
 
+  // For verifying
+  console.log('Input to LLM:', input);
+  
   try {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
