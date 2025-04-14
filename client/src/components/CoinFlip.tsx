@@ -86,14 +86,14 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
     return chineseRegex.test(text);
   };
 
-  // const computeSecondaryHexagram = (primaryHexagram: Hexagram): Hexagram => {
-  //   const newLines = primaryHexagram.lines.map((line) => {
-  //     if (line === 'old_yin') return 'young_yang'; // Old Yin -> Yang
-  //     if (line === 'old_yang') return 'young_yin'; // Old Yang -> Yin
-  //     return line; // Non-changing lines remain the same
-  //   }) as LineType[];
-  //   return createHexagram(newLines);
-  // };
+  const computeSecondaryHexagram = (primaryHexagram: Hexagram): Hexagram => {
+  const newLines = primaryHexagram.lines.map((line) => {
+    if (line === 'old_yin') return 'young_yang'; // Old Yin -> Yang
+    if (line === 'old_yang') return 'young_yin'; // Old Yang -> Yin
+    return line; // Non-changing lines remain the same
+    }) as LineType[];
+    return createHexagram(newLines);
+  };
 
   const handleQuestionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -204,6 +204,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
         question,
         hexagram,
         changingLineInterpretations,
+        secondaryHexagram: changingLines.length > 0 ? computeSecondaryHexagram(hexagram) : null,
       });
       setInterpretation(interpretation);
     } catch (error) {
@@ -242,8 +243,8 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
         .filter(index => index !== -1)
     : [];
 
-  // // Compute secondary hexagram if there are changing lines
-  // const secondaryHexagram = hexagram && changingLines.length > 0 ? computeSecondaryHexagram(hexagram) : null;
+  // Compute secondary hexagram if there are changing lines
+  const secondaryHexagram = hexagram && changingLines.length > 0 ? computeSecondaryHexagram(hexagram) : null;
 
   return (
     <div className="coin-flip">
@@ -409,33 +410,43 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                   })}
                 </div>
                 <div className="description">
-                  {changingLines.length > 0 && (
+                  {/* {changingLines.length > 0 && (
                     <>
                       <h4>變爻:</h4>
                       {changingLines.map((lineIndex) => (
                         <div key={lineIndex} className="changing-line">
                           <p>
                             <strong>{getChineseLineName(lineIndex + 1)}</strong>{' '}
-                            {/* {hexagram.lineInterpretations[lineIndex]} */}
+                            {/* {hexagram.lineInterpretations[lineIndex]}}
                           </p>
                         </div>
                       ))}
                     </>
-                  )}
-                  {/* {secondaryHexagram && (
+                  )}  */}
+                  {secondaryHexagram && (
                     <>
-                      <h4>之(第{getHexagramNumberName(secondaryHexagram.number)}卦: {secondaryHexagram.chineseName}):</h4>
-                      <div className="lines">
+                      <h3>變卦</h3>
+                      <h4>{hexagram.chineseName}之{secondaryHexagram.chineseName}:</h4>
+                      {secondaryHexagram.image ? (
+                        <img
+                          src={secondaryHexagram.image}
+                          alt={`Hexagram ${secondaryHexagram.number}`}
+                          className="hexagram-image"
+                        />
+                      ) : (
+                        <p className="no-image">無圖片可顯示</p>
+                      )}
+                      {/* <div className="lines">
                         {secondaryHexagram.lines.map((line, index) => (
                           <div
                             key={index}
                             className={`line ${line}`}
                           ></div>
                         ))}
-                      </div>
+                      </div> */}
                       <p>{secondaryHexagram.description}</p>
                     </>
-                  )} */}
+                  )} 
                   <h4>個人化解釋:</h4>
                   {interpretationLoading ? (
                     <p>正在生成解釋，請稍候...</p>
