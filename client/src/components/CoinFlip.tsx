@@ -436,6 +436,24 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                       ) : (
                         <p className="no-image">無圖片可顯示</p>
                       )}
+                      <div className="description">
+                        <h4>卦辭:</h4>
+                        <p>{secondaryHexagram.description}</p>
+                        <h4>爻辭:</h4>
+                        {secondaryHexagram.lines.map((line, index) => {
+                          const lineNumber = index + 1; // 1-based index for display (初爻 to 上爻)
+                          const isChangingLine = line === 'old_yin' || line === 'old_yang';
+                          return (
+                            <div key={index}>
+                              <p>
+                                <strong>{getChineseLineName(lineNumber)}:</strong>{' '}
+                                {secondaryHexagram.lineInterpretations[index]}{' '}
+                                {isChangingLine && <span className="changing-indicator">(變爻)</span>}
+                              </p>
+                            </div>
+                          );
+                        })}
+                      </div>
                       {/* <div className="lines">
                         {secondaryHexagram.lines.map((line, index) => (
                           <div
@@ -444,7 +462,6 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onComplete }) => {
                           ></div>
                         ))}
                       </div> */}
-                      <p>{secondaryHexagram.description}</p>
                     </>
                   )} 
                   <h4>個人化解釋:</h4>
