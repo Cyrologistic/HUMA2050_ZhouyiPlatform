@@ -8,6 +8,35 @@ interface GenerateInterpretationParams {
   secondaryHexagram: Hexagram | null;
 }
 
+const sanitizingOutput = (llm_output: string): any => {
+  // Count number of { and } in the string
+  const leftBracesCount = (llm_output.match(/{/g) || []).length;
+  const rightBracesCount = (llm_output.match(/}/g) || []).length;
+  let sanitizedOutput = "";
+  // Normally should be equal
+  if (leftBracesCount === rightBracesCount) {
+    // Remove first { and last } and parse the output as JSON
+    sanitizedOutput = llm_output.replace(/^\{/, '').replace(/\}$/, '');
+    // Parse the output as JSON
+    return JSON.parse(llm_output);
+  }
+  else {
+    sanitizedOutput = JSON.parse('{' + llm_output.replace(/{/g, '').replace(/}/g, '') + '}');
+  }
+  try {
+    // Parse the output as JSON
+    return JSON.parse(sanitizedOutput);
+  }
+  // If parsing fails, log the error and return output value without braces
+  catch (error) {
+    console.error('Error parsing LLM output:', error);
+    const jsonObject = {
+      'interpretation': sanitizedOutput.replace('{', '').replace('}', '')
+    }
+    return jsonObject;
+  }
+}
+
 
 export const generateInterpretation = async ({
   question,
@@ -161,7 +190,7 @@ export const generateInterpretation = async ({
     // Attempt to parse the response as JSON
     let parsedResponse;
     try {
-      parsedResponse = JSON.parse(interpretation);
+      parsedResponse = sanitizingOutput(interpretation);
     } catch (error) {
       console.error('Failed to parse LLM response as JSON:', error);
       // If parsing fails, assume the response is a plain text string and clean it
