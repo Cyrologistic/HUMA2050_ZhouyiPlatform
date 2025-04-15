@@ -183,7 +183,7 @@ export const generateInterpretation = async ({
       }
     );
 
-    let interpretation = response.data.choices[0].message.content.trim().replace("\\boxed","");
+    let interpretation = response.data.choices[0].message.content.trim().replace("\\boxed","").replace("\\box","");
 
     console.log('Raw LLM response:', interpretation);
 
@@ -199,6 +199,7 @@ export const generateInterpretation = async ({
         .replace(/[\r\n\t]+/g, ' ') // Replace newlines, carriage returns, and tabs with a single space
         .replace(/\s+/g, ' ') // Collapse multiple spaces into a single space
         .replace(/[*]+/g, '') // Remove asterisks (e.g., *, **)
+        .replace("\\box","") // Remove \box
         .trim();
 
       // Wrap the cleaned string in the expected JSON structure
